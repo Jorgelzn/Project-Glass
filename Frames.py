@@ -26,8 +26,10 @@ class mainFrame(frame):
     def __init__(self,parent):
         super().__init__(parent,"images/b.jpg")
         self.nextF=rFrame(self.parent)
+        self.nextF.nextF=self
         self.playButton=Button(self.myFrame,text="PLAY",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",command=lambda:self.toggle(self.nextF))
         self.playButton.place(rely=0.7,relx=0.4,relwidth=0.2,relheight=0.1)
+        print("NUMERO 1")
 
 
 class textTest(frame):
@@ -41,9 +43,9 @@ class rFrame(frame):
 
     def __init__(self,parent):
         super().__init__(parent,"images/r.jpg")
-        self.nextF=textTest(self.parent)
         self.playButton=Button(self.myFrame,text="Main Menu",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",command=lambda:self.toggle(self.nextF))
         self.playButton.place(rely=0.7,relx=0.4,relwidth=0.2,relheight=0.1)
+        print("NUMERO 2")
 
 
 
