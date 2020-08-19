@@ -10,8 +10,8 @@ def main():
     root.geometry("1000x800")
     root.resizable(False,False)
     
-    titleFrame(root)
-    
+    game=titleFrame(root)
+    game.myFrame.pack()
     root.mainloop()
 
 if __name__ == "__main__":
