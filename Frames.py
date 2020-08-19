@@ -1,5 +1,5 @@
 from tkinter import *
-from PIL import Image,ImageTk
+from PIL import Image,ImageTk,ImageFilter
 
 class frame():
 
@@ -48,13 +48,12 @@ class mainFrame(frame):
         self.textFrame=Frame(self.myFrame)
         self.textFrame.place(rely=0.7,relx=0,relwidth=1,relheight=0.3)
 
-        self.topFrame=Frame(self.myFrame,bg="#325062")
-        self.topFrame.place(rely=0,relx=0,relwidth=1,relheight=0.1)
-
         self.graphicFrame=Frame(self.myFrame,bg="white")
-        self.graphicFrame.place(rely=0.1,relx=0,relwidth=1,relheight=0.6)
+        self.graphicFrame.place(rely=0,relx=0,relwidth=1,relheight=0.7)
 
         self.menuFrame = Frame(self.myFrame,bg="#325062")
+
+        self.inventoryFrame = Frame(self.myFrame,bg="#325062")
 
         #opening text file
 
@@ -64,21 +63,17 @@ class mainFrame(frame):
         
         #setting all elements in the frames
 
-        self.mainImage = ImageTk.PhotoImage(Image.open(self.bg).resize((1000,int(0.6*800)), Image.ANTIALIAS))
+        #IMAGES
+        self.mainImage = ImageTk.PhotoImage(Image.open(self.bg).resize((1000,int(0.7*800)), Image.ANTIALIAS))
         self.imageLabel = Label(self.graphicFrame,image=self.mainImage)
-        self.imageLabel.pack()
+        self.imageLabel.place(rely=0,relx=0,relwidth=1,relheight=1)
+        self.menuImage = Image.open(self.bg).filter(ImageFilter.BLUR)
+        self.menuBg=ImageTk.PhotoImage(self.menuImage)
+        self.bgLabel["image"]=self.menuBg
 
-        self.menuButton=Button(self.topFrame,text="Menu",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",command=lambda:self.toggleMenu())
-        self.menuButton.place(rely=0,relx=0,relwidth=0.2,relheight=1)
-
-        self.inventoryButton=Button(self.topFrame,text="Inventory",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2")
-        self.inventoryButton.place(rely=0,relx=0.8,relwidth=0.2,relheight=1)
-
-        self.text = Label(self.textFrame,text=self.phrases[self.actualPhrase],borderwidth=10, relief="ridge",bg="#325062",fg="#4FC6B2",font=("Verdana", 15))
-        self.text.place(rely=0,relx=0,relwidth=0.8,relheight=1)
-
-        self.nextButton=Button(self.textFrame,text="Next",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",command=lambda:self.nextPhrase())
-        self.nextButton.place(rely=0,relx=0.8,relwidth=0.2,relheight=1)
+        #MENU BUTTONS
+        self.menuButton=Button(self.graphicFrame,text="Menu",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",command=lambda:self.toggleElem(self.menuFrame))
+        self.menuButton.place(rely=0,relx=0,relwidth=0.2,relheight=0.15)
 
         self.titleButton = Button(self.menuFrame,text="Title Screen",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(self.titleScreen))
         self.titleButton.place(rely=0,relx=0,relwidth=1,relheight=0.3)
@@ -86,8 +81,23 @@ class mainFrame(frame):
         self.mapButton = Button(self.menuFrame,text="Map",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
         self.mapButton.place(rely=0.3,relx=0,relwidth=1,relheight=0.4)
 
-        self.continueButton = Button(self.menuFrame,text="Continue",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.hideMenu())
+        self.continueButton = Button(self.menuFrame,text="Continue",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.hideElem(self.menuFrame))
         self.continueButton.place(rely=0.7,relx=0,relwidth=1,relheight=0.3)
+
+        #INVENTORY BUTTONS
+        self.inventoryButton=Button(self.graphicFrame,text="Inventory",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",command=lambda:self.toggleElem(self.inventoryFrame))
+        self.inventoryButton.place(rely=0,relx=0.8,relwidth=0.2,relheight=0.15)
+
+        self.continueButton = Button(self.inventoryFrame,text="Continue",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.hideElem(self.inventoryFrame))
+        self.continueButton.place(rely=0.7,relx=0,relwidth=1,relheight=0.3)
+
+        #TEXT DISPLAY AND ACTION BUTTON
+        self.text = Label(self.textFrame,text=self.phrases[self.actualPhrase],borderwidth=10, relief="ridge",bg="#325062",fg="#4FC6B2",font=("Verdana", 15))
+        self.text.place(rely=0,relx=0,relwidth=0.8,relheight=1)
+
+        self.nextButton=Button(self.textFrame,text="Next",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",command=lambda:self.nextPhrase())
+        self.nextButton.place(rely=0,relx=0.8,relwidth=0.2,relheight=1)
+
 
 
     def nextPhrase(self):
@@ -97,16 +107,14 @@ class mainFrame(frame):
             self.actualPhrase+=1
             self.text["text"]=self.phrases[self.actualPhrase]
 
-    def toggleMenu(self):
-        self.topFrame.place_forget()
+    def toggleElem(self,elem):
         self.textFrame.place_forget()
         self.graphicFrame.place_forget()
-        self.menuFrame.place(rely=0.15,relx=0.35,relwidth=0.3,relheight=0.7)
+        elem.place(rely=0.15,relx=0.35,relwidth=0.3,relheight=0.7)
 
-    def hideMenu(self):
-        self.menuFrame.place_forget()
-        self.topFrame.place(rely=0,relx=0,relwidth=1,relheight=0.1)
-        self.graphicFrame.place(rely=0.1,relx=0,relwidth=1,relheight=0.6)
+    def hideElem(self,elem):
+        elem.place_forget()
+        self.graphicFrame.place(rely=0,relx=0,relwidth=1,relheight=0.7)
         self.textFrame.place(rely=0.7,relx=0,relwidth=1,relheight=0.3)
 
 
