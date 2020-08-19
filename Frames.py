@@ -12,8 +12,8 @@ class frame():
         self.bgImage = ImageTk.PhotoImage(Image.open(self.bg))
         self.bgLabel = Label(self.myFrame,image=self.bgImage)
         self.bgLabel.pack()
-        self.nextF=None
         self.titleScreen=None
+        self.connectedFrames=[]
 
     def toggle(self,toelem):
         self.myFrame.pack_forget()
@@ -26,14 +26,13 @@ class titleFrame(frame):
     def __init__(self,parent):
         super().__init__(parent,"images/title.jpg")
         print("NUMERO 1")
-        self.nextF=mainFrame(self.parent)
-        self.nextF.titleScreen=self
+        self.connectedFrames.append(morthenFrame1(self.parent,self))
         self.credits = creditsFrame(self.parent)
         self.credits.titleScreen=self
-        self.playButton=Button(self.myFrame,text="Explore",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(self.nextF))
+        self.playButton=Button(self.myFrame,text="Explore",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(self.connectedFrames[0]))
         self.playButton.place(rely=0.7,relx=0.4,relwidth=0.2,relheight=0.1)
 
-        self.restartButton=Button(self.myFrame,text="New Adventure",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(self.nextF))
+        self.restartButton=Button(self.myFrame,text="New Adventure",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(self.connectedFrames[0]))
         self.restartButton.place(rely=0.85,relx=0.4,relwidth=0.2,relheight=0.1)
 
         self.creditsButton=Button(self.myFrame,text="Credits",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(self.credits))
@@ -44,7 +43,7 @@ class creditsFrame(frame):
 
     def __init__(self, parent):
         super().__init__(parent,"images/credits.jpg")
-        self.text=Label(self.myFrame,text="""Programer and Designer:
+        self.text=Label(self.myFrame,text="""Programmer and Designer:
 Jorge Lizcano
 
 Images:
@@ -59,9 +58,19 @@ Matt Sanz""",bg="#325062",fg="#4FC6B2",font=("Verdana", 10))
 
 class mainFrame(frame):
 
-    def __init__(self,parent):
-        super().__init__(parent,"images/forest.jpg")
+    def __init__(self,parent,bg,dialogue,title):
+        super().__init__(parent,bg)
         print("NUMERO 2")
+
+        self.titleScreen=title
+
+        #variables
+
+        self.decisionPoints=[]   #decice when to show the options to choose in dialogues ( 1d only)
+        self.optionChecked=[]     #to store the decisions made in dialogues (1d or more dimensions)
+        self.options=[]            #store text of the different options (1d or more dimensions)
+        self.actualDecision=0       #store the decision in which we are in the moment to keep track where we are in dialogue to iterate arrays of decions and options
+        self.nextF = 0              #variable used to choose which will be the next frame to go in the array of connected frames
         #setting all frames
 
         self.textFrame=Frame(self.myFrame)
@@ -76,7 +85,7 @@ class mainFrame(frame):
 
         #opening text file
 
-        self.textFile=open("texts/testing.txt","r")
+        self.textFile=open(dialogue,"r")
         self.phrases=self.textFile.read().splitlines()
         self.actualPhrase = 0
         
@@ -127,32 +136,109 @@ class mainFrame(frame):
         self.text = Label(self.textFrame,text=self.phrases[self.actualPhrase],borderwidth=10, relief="ridge",bg="#325062",fg="#4FC6B2",font=("Verdana", 15))
         self.text.place(rely=0,relx=0,relwidth=0.8,relheight=1)
 
-        self.nextButton=Button(self.textFrame,text="Next",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",command=lambda:self.nextPhrase())
+        self.nextButton=Button(self.textFrame,text="Next",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.action())
         self.nextButton.place(rely=0,relx=0.8,relwidth=0.2,relheight=1)
 
+        #SELECTOR OF OPTIONS IN DIALOGUE
+
+        self.selector = Frame(self.textFrame,bg="#325062")
+        self.optionButtons=[]
+        self.optionButtons.append(Button(self.selector,text="",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.checkOption(0)))
+        self.optionButtons[0].place(rely=0,relx=0,relwidth=1,relheight=0.25)
+        self.optionButtons.append(Button(self.selector,text="",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.checkOption(1)))
+        self.optionButtons[1].place(rely=0.25,relx=0,relwidth=1,relheight=0.25)
+        self.optionButtons.append(Button(self.selector,text="",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.checkOption(2)))
+        self.optionButtons[2].place(rely=0.5,relx=0,relwidth=1,relheight=0.25)
+        self.optionButtons.append(Button(self.selector,text="",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.checkOption(3)))
+        self.optionButtons[3].place(rely=0.75,relx=0,relwidth=1,relheight=0.25)
+     
 
 
-    def nextPhrase(self):
-        if self.actualPhrase==len(self.phrases)-1:
-            print("no mas")
-        else:
-            self.actualPhrase+=1
+    def checkOption(self,number):                           #function used to check which option is selected in the decision and store it in the optionchecked array
+        if 1 in self.optionChecked[self.actualDecision]:
+            for i in range(len(self.optionChecked[self.actualDecision])):
+                self.optionChecked[self.actualDecision][i]=0
+        for i in range(len(self.optionButtons)):
+            if i == number:
+                self.optionButtons[i]["bg"]="#406070"
+                self.optionButtons[i]["activebackground"]="#406070"
+            else:
+                self.optionButtons[i]["bg"]="#325062"
+                self.optionButtons[i]["activebackground"]="#325062"
+        self.optionChecked[self.actualDecision][number]=1
+        print(self.optionChecked)
+
+
+    def action(self):                                   #function used to determine what to do when the button next is pressed
+
+        if self.actualPhrase in self.decisionPoints:        #if we are in a decision point of the dialogue, it is replaced by the options table in order to choose
+            self.selector.place(rely=0,relx=0,relwidth=0.8,relheight=1)
+            if 1 in self.optionChecked[self.actualDecision]:
+                self.actualPhrase+=1
+                self.actualDecision+=1
+                self.selector.place_forget()
+                self.text["text"]=self.phrases[self.actualPhrase]
+                if self.actualDecision in range(len(self.options)):
+                    for i in range(len(self.optionButtons)):
+                        self.optionButtons[i]["text"]=self.options[self.actualDecision][i]
+        else:                                               #if we are not in a decision the dialogue proceeds as normal
+            if self.actualPhrase==len(self.phrases)-1:      #if we are in the last phrase of the dialogue we will go to the next frame
+                self.connectedFrames[0].titleScreen=self.titleScreen
+                self.chooseNext()
+                self.toggle(self.connectedFrames[self.nextF])
+                self.actualPhrase=0
+                self.actualDecision=0
+            else:                                           #the normal case is that we just go to the next phrase in the dialogue
+                self.actualPhrase+=1
             self.text["text"]=self.phrases[self.actualPhrase]
 
-    def toggleElem(self,elem,ly,lx,lw,lh):
+
+    def toggleElem(self,elem,ly,lx,lw,lh):                      #function used to show inventory and menu
         self.textFrame.place_forget()
         self.graphicFrame.place_forget()
         elem.place(rely=ly,relx=lx,relwidth=lw,relheight=lh)
 
-    def hideElem(self,elem):
+
+    def hideElem(self,elem):                                    #function used to get out of inventory and menu
         elem.place_forget()
         self.graphicFrame.place(rely=0,relx=0,relwidth=1,relheight=0.7)
         self.textFrame.place(rely=0.7,relx=0,relwidth=1,relheight=0.3)
 
 
+    def chooseNext(self):
+        pass
 
 
 
 
+class morthenFrame1(mainFrame):
+
+    def __init__(self, parent,title):
+        super().__init__(parent,"images/morthen1.jpg","texts/testing.txt",title)
+        self.decisionPoints=[1,2]
+        self.optionChecked=[[0,0,0,0],[0,0,0,0]]
+        self.options=[["el avernus","el oceano glacial","praderas yermas","acantilados susurrantes"],
+        ["si","no","tal vez","creo que no"]]
+        for i in range(len(self.optionButtons)):
+            self.optionButtons[i]["text"]=self.options[0][i]
+        self.connectedFrames=[(avernusFrame(self.parent,self.titleScreen)),(oceanFrame(self.parent,self.titleScreen))]
+
+    def chooseNext(self):
+        if self.optionChecked[0][0] and self.optionChecked[1][0]:
+            self.nextF=0
+        else:
+            self.nextF=1
+        
+class oceanFrame(mainFrame):
+
+    def __init__(self, parent,title):
+        super().__init__(parent,"images/ocean.jpg","texts/testing.txt",title)
+
+
+
+class avernusFrame(mainFrame):
+
+    def __init__(self, parent,title):
+        super().__init__(parent,"images/avernus.jpg","texts/testing.txt",title)
 
 #nota para mi : si las frames no se guardan en variables no se ven o se comportan raro
