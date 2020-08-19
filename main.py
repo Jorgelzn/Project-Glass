@@ -10,7 +10,7 @@ def main():
     root.geometry("1000x800")
     root.resizable(False,False)
     
-    mainFrame(root)
+    titleFrame(root)
     
     root.mainloop()
 
