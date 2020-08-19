@@ -49,7 +49,9 @@ Jorge Lizcano
 
 Images:
 Chris Cold
-Luka Mivsek""",bg="#325062",fg="#4FC6B2",font=("Verdana", 10))
+Luka Mivsek
+Hira Bilal
+Matt Sanz""",bg="#325062",fg="#4FC6B2",font=("Verdana", 10))
         self.text.place(rely=0.1,relx=0.3,relwidth=0.4,relheight=0.7)
         print("NUMERO 3")
         self.titleButton = Button(self.myFrame,text="Title Screen",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(self.titleScreen))
@@ -87,54 +89,38 @@ class mainFrame(frame):
         self.menuImage = Image.open(self.bg).filter(ImageFilter.BLUR)
         self.menuBg=ImageTk.PhotoImage(self.menuImage)
         self.bgLabel["image"]=self.menuBg
-        self.inventoryImage = ImageTk.PhotoImage(Image.open("images/question.png"))
+        self.inventoryImages = [ImageTk.PhotoImage(Image.open("images/question.png").resize((70,114)))]
+        self.inventoryIcon = ImageTk.PhotoImage(Image.open("images/inventory.png").resize((200,160)))
+        self.menuIcon = ImageTk.PhotoImage(Image.open("images/menu.png").resize((200,160)))
 
 
         #MENU BUTTONS
-        self.menuButton=Button(self.graphicFrame,text="Menu",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",command=lambda:self.toggleElem(self.menuFrame,0.15,0.35,0.3,0.7))
-        self.menuButton.place(rely=0,relx=0,relwidth=0.2,relheight=0.15)
+        self.menuButton=Button(self.graphicFrame,bg="#325062",borderwidth=5, relief="raised",activebackground="#325062",image=self.menuIcon,command=lambda:self.toggleElem(self.menuFrame,0.15,0.35,0.3,0.7))
+        self.menuButton.place(rely=0,relx=0,relwidth=0.2,relheight=0.25)
 
         self.titleButton = Button(self.menuFrame,text="Title Screen",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:[self.toggle(self.titleScreen),self.hideElem(self.menuFrame)])
-        self.titleButton.place(rely=0,relx=0,relwidth=1,relheight=0.3)
+        self.titleButton.place(rely=0,relx=0,relwidth=1,relheight=0.25)
         
         self.mapButton = Button(self.menuFrame,text="Map",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
-        self.mapButton.place(rely=0.3,relx=0,relwidth=1,relheight=0.4)
+        self.mapButton.place(rely=0.25,relx=0,relwidth=1,relheight=0.25)
+
+        self.questsButton = Button(self.menuFrame,text="Quests",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
+        self.questsButton.place(rely=0.5,relx=0,relwidth=1,relheight=0.25)
 
         self.continueButton = Button(self.menuFrame,text="Continue",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.hideElem(self.menuFrame))
-        self.continueButton.place(rely=0.7,relx=0,relwidth=1,relheight=0.3)
+        self.continueButton.place(rely=0.75,relx=0,relwidth=1,relheight=0.25)
 
 
         #INVENTORY BUTTONS
-        self.inventoryButton=Button(self.graphicFrame,text="Inventory",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",command=lambda:self.toggleElem(self.inventoryFrame,0.1,0.15,0.7,0.8))
-        self.inventoryButton.place(rely=0,relx=0.8,relwidth=0.2,relheight=0.15)
+        self.inventoryButton=Button(self.graphicFrame,bg="#325062",borderwidth=5, relief="raised",activebackground="#325062",image=self.inventoryIcon,command=lambda:self.toggleElem(self.inventoryFrame,0.1,0.15,0.7,0.8))
+        self.inventoryButton.place(rely=0,relx=0.8,relwidth=0.2,relheight=0.25)
 
         self.continueButton = Button(self.inventoryFrame,text="Continue",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.hideElem(self.inventoryFrame))
         self.continueButton.place(rely=0.9,relx=0,relwidth=1,relheight=0.1)
 
-        self.object1  = Button(self.inventoryFrame,text="obj1",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",width=169,height=185,image=self.inventoryImage)
-        self.object1.grid(row=0,column=0)
-        self.object2  = Button(self.inventoryFrame,text="obj2",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",width=169,height=185,image=self.inventoryImage)
-        self.object2.grid(row=0,column=1)
-        self.object3  = Button(self.inventoryFrame,text="obj3",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",width=169,height=185,image=self.inventoryImage)
-        self.object3.grid(row=0,column=2)
-        self.object4  = Button(self.inventoryFrame,text="obj4",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",width=169,height=185,image=self.inventoryImage)
-        self.object4.grid(row=0,column=3)
-        self.object1  = Button(self.inventoryFrame,text="obj5",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",width=169,height=185,image=self.inventoryImage)
-        self.object1.grid(row=1,column=0)
-        self.object2  = Button(self.inventoryFrame,text="obj6",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",width=169,height=185,image=self.inventoryImage)
-        self.object2.grid(row=1,column=1)
-        self.object3  = Button(self.inventoryFrame,text="obj7",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",width=169,height=185,image=self.inventoryImage)
-        self.object3.grid(row=1,column=2)
-        self.object4  = Button(self.inventoryFrame,text="obj8",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",width=169,height=185,image=self.inventoryImage)
-        self.object4.grid(row=1,column=3)
-        self.object1  = Button(self.inventoryFrame,text="obj9",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",width=169,height=185,image=self.inventoryImage)
-        self.object1.grid(row=2,column=0)
-        self.object2  = Button(self.inventoryFrame,text="obj10",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",width=169,height=185,image=self.inventoryImage)
-        self.object2.grid(row=2,column=1)
-        self.object3  = Button(self.inventoryFrame,text="obj11",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",width=169,height=185,image=self.inventoryImage)
-        self.object3.grid(row=2,column=2)
-        self.object4  = Button(self.inventoryFrame,text="obj12",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",width=169,height=185,image=self.inventoryImage)
-        self.object4.grid(row=2,column=3)
+        for i in range(12):
+            self.object1  = Button(self.inventoryFrame,bg="#325062",activebackground="#325062",width=169,height=185,image=self.inventoryImages[0])
+            self.object1.grid(row=int(i/4),column=int(i%4))
 
 
         #TEXT DISPLAY AND ACTION BUTTON
