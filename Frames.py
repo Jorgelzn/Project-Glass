@@ -1,6 +1,7 @@
 from tkinter import *
 from PIL import Image,ImageTk,ImageFilter
 
+Zones=[]
 class frame():
 
     def __init__(self,parent,bg):
@@ -12,7 +13,6 @@ class frame():
         self.bgImage = ImageTk.PhotoImage(Image.open(self.bg))
         self.bgLabel = Label(self.myFrame,image=self.bgImage)
         self.bgLabel.pack()
-        self.titleScreen=None
         self.connectedFrames=[]
 
     def toggle(self,toelem):
@@ -26,18 +26,20 @@ class titleFrame(frame):
     def __init__(self,parent):
         super().__init__(parent,"images/title.jpg")
         print("NUMERO 1")
-        self.connectedFrames.append(portal(self.parent,self))
-        self.credits = creditsFrame(self.parent)
-        self.credits.titleScreen=self
+        Zones.append(self)
+        self.connectedFrames=[portal(self.parent),creditsFrame(self.parent)]
         self.playButton=Button(self.myFrame,text="Explore",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(self.connectedFrames[0]))
         self.playButton.place(rely=0.7,relx=0.4,relwidth=0.2,relheight=0.1)
 
-        self.restartButton=Button(self.myFrame,text="New Adventure",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(self.connectedFrames[0]))
+        self.restartButton=Button(self.myFrame,text="New Adventure",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:[self.toggle(self.connectedFrames[0]),self.newAdventure()])
         self.restartButton.place(rely=0.85,relx=0.4,relwidth=0.2,relheight=0.1)
 
-        self.creditsButton=Button(self.myFrame,text="Credits",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(self.credits))
+        self.creditsButton=Button(self.myFrame,text="Credits",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(self.connectedFrames[1]))
         self.creditsButton.place(rely=0.90,relx=0.05,relwidth=0.1,relheight=0.05)
 
+    def newAdventure(self):
+        for i in range(1,len(Zones)):
+            Zones[i].reset()
 
 class creditsFrame(frame):
 
@@ -53,16 +55,15 @@ Hira Bilal
 Matt Sanz""",bg="#325062",fg="#4FC6B2",font=("Verdana", 10))
         self.text.place(rely=0.1,relx=0.3,relwidth=0.4,relheight=0.7)
         print("NUMERO 3")
-        self.titleButton = Button(self.myFrame,text="Title Screen",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(self.titleScreen))
+        self.titleButton = Button(self.myFrame,text="Title Screen",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(Zones[0]))
         self.titleButton.place(rely=0.85,relx=0.3,relwidth=0.4,relheight=0.1)
 
 class mainFrame(frame):
 
-    def __init__(self,parent,bg,dialogue,title):
+    def __init__(self,parent,bg,dialogue):
         super().__init__(parent,bg)
         print("NUMERO 2")
-
-        self.titleScreen=title
+        Zones.append(self)
 
         #variables
 
@@ -107,7 +108,7 @@ class mainFrame(frame):
         self.menuButton=Button(self.graphicFrame,bg="#325062",borderwidth=5, relief="raised",activebackground="#325062",image=self.menuIcon,command=lambda:self.toggleElem(self.menuFrame,0.15,0.35,0.3,0.7))
         self.menuButton.place(rely=0,relx=0,relwidth=0.2,relheight=0.25)
 
-        self.titleButton = Button(self.menuFrame,text="Title Screen",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:[self.toggle(self.titleScreen),self.hideElem(self.menuFrame)])
+        self.titleButton = Button(self.menuFrame,text="Title Screen",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:[self.toggle(Zones[0]),self.hideElem(self.menuFrame)])
         self.titleButton.place(rely=0,relx=0,relwidth=1,relheight=0.25)
         
         self.mapButton = Button(self.menuFrame,text="Map",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
@@ -173,11 +174,11 @@ class mainFrame(frame):
 
         if self.actualPhrase in self.decisionPoints:        #if we are in a decision point of the dialogue, it is replaced by the options table in order to choose
             self.selector.place(rely=0,relx=0,relwidth=0.8,relheight=1)
-            if 1 in self.optionChecked[self.actualDecision]:
-                self.actualDecision+=1
-                self.selector.place_forget()
-                self.actualPhrase+=1
-                self.text["text"]=self.phrases[self.actualPhrase]
+            if 1 in self.optionChecked[self.actualDecision]:        #if in the actual decision (self.optionChecked[actual]) there is a one
+                self.actualDecision+=1              #next decision for next decision point
+                self.selector.place_forget()        #go back to text hiding selector
+                self.actualPhrase+=1                #go to next phrase
+                self.text["text"]=self.phrases[self.actualPhrase]   #change text to next phrase
                 if self.actualDecision in range(len(self.options)):
                     for i in range(len(self.optionButtons)):
                         self.optionButtons[i]["text"]=self.options[self.actualDecision][i]      #change text of decision buttons for next decision
@@ -186,14 +187,11 @@ class mainFrame(frame):
         else:                                               #if we are not in a decision the dialogue proceeds as normal
             if self.actualPhrase==len(self.phrases)-1:      #if we are in the last phrase of the dialogue we will go to the next frame
                 if len(self.connectedFrames)!=0:            #solo cambiar de frame si hay alguna frame delante
-                    self.connectedFrames[0].titleScreen=self.titleScreen
                     self.chooseNext()
                     self.toggle(self.connectedFrames[self.nextF])
-                    self.actualPhrase=0
-                    self.actualDecision=0
             else:                                           #the normal case is that we just go to the next phrase in the dialogue
                 self.actualPhrase+=1
-                self.text["text"]=self.phrases[self.actualPhrase]
+            self.text["text"]=self.phrases[self.actualPhrase]
 
 
     def toggleElem(self,elem,ly,lx,lw,lh):                      #function used to show inventory and menu
@@ -207,6 +205,22 @@ class mainFrame(frame):
         self.graphicFrame.place(rely=0,relx=0,relwidth=1,relheight=0.7)
         self.textFrame.place(rely=0.7,relx=0,relwidth=1,relheight=0.3)
 
+    def reset(self):                                            #reset values of selected 
+
+        self.actualPhrase=0
+        self.actualDecision=0
+        self.text["text"]=self.phrases[self.actualPhrase]
+
+        for j in range(len(self.optionChecked)):            #set all decisions to 0
+            for i in range(len(self.optionChecked[j])):
+                self.optionChecked[j][i]=0
+
+        if len(self.options)!=0:                        #if there is options in the frame
+            for i in range(len(self.optionButtons)):
+                self.optionButtons[i]["text"]=self.options[self.actualDecision][i]      #change text of decision buttons for first option again
+                self.optionButtons[i]["bg"]="#325062"                                   #reset default color for buttons
+                self.optionButtons[i]["activebackground"]="#325062"
+
     #decision de diseño pendiente : necesario reset de opciones al volver al menu principal (primera impresion -> no me encaja del todo)
 
     def chooseNext(self):
@@ -217,18 +231,20 @@ class mainFrame(frame):
 
 class portal(mainFrame):
 
-    def __init__(self, parent,title):
-        super().__init__(parent,"images/portal.jpg","texts/portal.txt",title)
+    def __init__(self, parent):
+        super().__init__(parent,"images/portal.jpg","texts/portal.txt")
         self.decisionPoints=[16,17,18]
         self.optionChecked=[[0,0,0,0],[0,0,0,0],[0,0,0,0]]
         self.options=[["poder","riquezas","conocimiento","experiencias"],
         ["mi familia","mis amigos","mi vida","no pienso dejar nada atras"],
         ["magia elemental","magia arcana","magia druidrica","necromancia y demonologia"],]
+
         for i in range(len(self.optionButtons)):
             self.optionButtons[i]["text"]=self.options[0][i]
-        self.connectedFrames=[(morthenFrame(self.parent,self.titleScreen)),
-        (intralaFrame(self.parent,self.titleScreen)),
-        (kanilikFrame(self.parent,self.titleScreen))]
+
+        self.connectedFrames=[(morthenFrame(self.parent)),
+                              (intralaFrame(self.parent)),
+                              (kanilikFrame(self.parent))]
 
     def chooseNext(self):
         if self.optionChecked[2][1] or self.optionChecked[1][2] or self.optionChecked[0][3]:
@@ -240,20 +256,20 @@ class portal(mainFrame):
         
 class morthenFrame(mainFrame):
 
-    def __init__(self, parent,title):
-        super().__init__(parent,"images/morthen.jpg","texts/morthen.txt",title)
+    def __init__(self, parent):
+        super().__init__(parent,"images/morthen.jpg","texts/morthen.txt")
 
 
 class kanilikFrame(mainFrame):
 
-    def __init__(self, parent,title):
-        super().__init__(parent,"images/selvaKanilik.jpg","texts/kanilik.txt",title)
+    def __init__(self, parent):
+        super().__init__(parent,"images/selvaKanilik.jpg","texts/kanilik.txt")
 
 
 
 class intralaFrame(mainFrame):
 
-    def __init__(self, parent,title):
-        super().__init__(parent,"images/intrala.jpg","texts/intrala.txt",title)
+    def __init__(self, parent):
+        super().__init__(parent,"images/intrala.jpg","texts/intrala.txt")
 
 #nota para mi : si las frames no se guardan en variables no se ven o se comportan raro
