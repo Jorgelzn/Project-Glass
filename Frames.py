@@ -52,7 +52,11 @@ Images:
 Chris Cold
 Luka Mivsek
 Hira Bilal
-Matt Sanz""",bg="#325062",fg="#4FC6B2",font=("Verdana", 10))
+Matt Sanz
+Brendon Paes
+
+Music:
+""",bg="#325062",fg="#4FC6B2",font=("Verdana", 10))
         self.text.place(rely=0.1,relx=0.3,relwidth=0.4,relheight=0.7)
         print("NUMERO 3")
         self.titleButton = Button(self.myFrame,text="Title Screen",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(Zones[0]))
@@ -77,12 +81,14 @@ class mainFrame(frame):
         self.textFrame=Frame(self.myFrame)
         self.textFrame.place(rely=0.7,relx=0,relwidth=1,relheight=0.3)
 
-        self.graphicFrame=Frame(self.myFrame,bg="white")
+        self.graphicFrame=Frame(self.myFrame,bg="#325062")
         self.graphicFrame.place(rely=0,relx=0,relwidth=1,relheight=0.7)
 
         self.menuFrame = Frame(self.myFrame,bg="#325062")
 
         self.inventoryFrame = Frame(self.myFrame,bg="#325062")
+
+        self.descriptionFrame = Frame(self.myFrame,bg="#325062")
 
         #opening text file
 
@@ -99,7 +105,8 @@ class mainFrame(frame):
         self.menuImage = Image.open(self.bg).filter(ImageFilter.BLUR)
         self.menuBg=ImageTk.PhotoImage(self.menuImage)
         self.bgLabel["image"]=self.menuBg
-        self.inventoryImages = [ImageTk.PhotoImage(Image.open("images/question.png").resize((70,114)))]
+        self.inventoryImages = [ImageTk.PhotoImage(Image.open("images/question.png").resize((70,114))),
+                                ImageTk.PhotoImage(Image.open("images/map.jpg").resize((150,150)))]
         self.inventoryIcon = ImageTk.PhotoImage(Image.open("images/inventory.png").resize((200,160)))
         self.menuIcon = ImageTk.PhotoImage(Image.open("images/menu.png").resize((200,160)))
 
@@ -114,11 +121,21 @@ class mainFrame(frame):
         self.mapButton = Button(self.menuFrame,text="Map",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
         self.mapButton.place(rely=0.25,relx=0,relwidth=1,relheight=0.25)
 
-        self.questsButton = Button(self.menuFrame,text="Quests",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
+        self.questsButton = Button(self.menuFrame,text="Diary",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
         self.questsButton.place(rely=0.5,relx=0,relwidth=1,relheight=0.25)
 
         self.continueButton = Button(self.menuFrame,text="Continue",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.hideElem(self.menuFrame))
         self.continueButton.place(rely=0.75,relx=0,relwidth=1,relheight=0.25)
+
+
+        #DESCRIPTION BUTTONS
+
+        self.descriptionImageL = Label(self.descriptionFrame,bg="#325062",image=self.inventoryImages[0])
+        self.descriptionImageL.place(rely=0,relx=0,relwidth=1,relheight=0.6)
+        self.descriptionL = Label(self.descriptionFrame,text="",bg="#325062",fg="#4FC6B2",font=("Verdana", 15))
+        self.descriptionL.place(rely=0.6,relx=0,relwidth=1,relheight=0.3)
+        self.backI = Button(self.descriptionFrame,text="Back",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:[self.hideElem(self.descriptionFrame),self.toggleElem(self.inventoryFrame,0.1,0.15,0.7,0.8)])
+        self.backI.place(rely=0.9,relx=0,relwidth=1,relheight=0.1)
 
 
         #INVENTORY BUTTONS
@@ -127,10 +144,24 @@ class mainFrame(frame):
 
         self.continueButton = Button(self.inventoryFrame,text="Continue",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.hideElem(self.inventoryFrame))
         self.continueButton.place(rely=0.9,relx=0,relwidth=1,relheight=0.1)
-
+        self.objects=[]
+        self.objectsDesc=["""Mapa de Entoras
+Se pueden apreciar las diferentes regiones de este mundo""",
+                          "Objecto misterioso que aun no ha sido descubierto",
+                          "Objecto misterioso que aun no ha sido descubierto",
+                          "Objecto misterioso que aun no ha sido descubierto",
+                          "Objecto misterioso que aun no ha sido descubierto",
+                          "Objecto misterioso que aun no ha sido descubierto",
+                          "Objecto misterioso que aun no ha sido descubierto",
+                          "Objecto misterioso que aun no ha sido descubierto",
+                          "Objecto misterioso que aun no ha sido descubierto",
+                          "Objecto misterioso que aun no ha sido descubierto",
+                          "Objecto misterioso que aun no ha sido descubierto",
+                          "Objecto misterioso que aun no ha sido descubierto",
+        ]
         for i in range(12):
-            self.object1  = Button(self.inventoryFrame,bg="#325062",activebackground="#325062",width=169,height=185,image=self.inventoryImages[0])
-            self.object1.grid(row=int(i/4),column=int(i%4))
+            self.objects.append(Button(self.inventoryFrame,bg="#325062",activebackground="#325062",width=169,height=185,image=self.inventoryImages[0],command=lambda:[self.toggleElem(self.descriptionFrame,0.1,0.15,0.7,0.8),self.inventoryFrame.place_forget(),self.setObjectDesc(self.objects[i]["image"],self.objectsDesc[1])]))
+            self.objects[i].grid(row=int(i/4),column=int(i%4))
 
 
         #TEXT DISPLAY AND ACTION BUTTON
@@ -221,7 +252,9 @@ class mainFrame(frame):
                 self.optionButtons[i]["bg"]="#325062"                                   #reset default color for buttons
                 self.optionButtons[i]["activebackground"]="#325062"
 
-    #decision de diseño pendiente : necesario reset de opciones al volver al menu principal (primera impresion -> no me encaja del todo)
+    def setObjectDesc(self,image,text):
+        self.descriptionImageL["image"]=image
+        self.descriptionL["text"]=text
 
     def chooseNext(self):
         pass
@@ -253,6 +286,10 @@ class portal(mainFrame):
             self.nextF=1
         else:
             self.nextF=2
+        followFrame=self.connectedFrames[self.nextF]                #variable para simplicidad de codigo
+        followFrame.objects[0]["image"]=self.inventoryImages[1]      #when we go in the portal, the map is added
+        followFrame.objects[0]["command"]=lambda:[followFrame.toggleElem(followFrame.descriptionFrame,0.1,0.15,0.7,0.8),followFrame.inventoryFrame.place_forget(),followFrame.setObjectDesc(followFrame.objects[0]["image"],followFrame.objectsDesc[0])]  #description of portal is added
+
         
 class morthenFrame(mainFrame):
 
