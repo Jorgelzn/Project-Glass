@@ -4,6 +4,7 @@ from PIL import Image,ImageTk
 
 
 
+
 def main():
     root = Tk()
     root.title("Entoras")
@@ -14,7 +15,6 @@ def main():
     loadingImage = ImageTk.PhotoImage(Image.open("images/loading.jpg"))     #setting loading image
     loading = Label(image=loadingImage)
     loading.pack()
-    
 
     root.after(2000,lambda:start())     #we use the loading label to wait while the frames compile
 
@@ -22,7 +22,7 @@ def main():
         game=titleFrame(root)
         loading.pack_forget()
         game.myFrame.pack()
-    
+        
     root.mainloop()
 
 

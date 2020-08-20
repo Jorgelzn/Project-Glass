@@ -1,10 +1,13 @@
 from tkinter import *
 from PIL import Image,ImageTk,ImageFilter
+from pygame import mixer
 
 Zones=[]
+mixer.init()
+mixer.music.set_volume(1)
 class frame():
 
-    def __init__(self,parent,bg):
+    def __init__(self,parent,bg,song):
         self.w=1000
         self.h=800
         self.bg = bg
@@ -14,18 +17,21 @@ class frame():
         self.bgLabel = Label(self.myFrame,image=self.bgImage)
         self.bgLabel.pack()
         self.connectedFrames=[]
+        self.song=song
 
     def toggle(self,toelem):
         self.myFrame.pack_forget()
         toelem.myFrame.pack()
+        mixer.music.load(toelem.song)
+        mixer.music.play()
 
 
 
 class titleFrame(frame):
 
     def __init__(self,parent):
-        super().__init__(parent,"images/title.jpg")
-        print("NUMERO 1")
+        super().__init__(parent,"images/title.jpg","music/green.mp3")
+        print("TITLE")
         Zones.append(self)
         self.connectedFrames=[portal(self.parent),creditsFrame(self.parent)]
         self.playButton=Button(self.myFrame,text="Explore",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(self.connectedFrames[0]))
@@ -36,6 +42,8 @@ class titleFrame(frame):
 
         self.creditsButton=Button(self.myFrame,text="Credits",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(self.connectedFrames[1]))
         self.creditsButton.place(rely=0.90,relx=0.05,relwidth=0.1,relheight=0.05)
+        mixer.music.load(self.song)
+        mixer.music.play()
 
     def newAdventure(self):
         for i in range(1,len(Zones)):
@@ -44,7 +52,7 @@ class titleFrame(frame):
 class creditsFrame(frame):
 
     def __init__(self, parent):
-        super().__init__(parent,"images/credits.jpg")
+        super().__init__(parent,"images/credits.jpg","music/green.mp3")
         self.text=Label(self.myFrame,text="""Programmer and Designer:
 Jorge Lizcano
 
@@ -58,15 +66,15 @@ Brendon Paes
 Music:
 """,bg="#325062",fg="#4FC6B2",font=("Verdana", 10))
         self.text.place(rely=0.1,relx=0.3,relwidth=0.4,relheight=0.7)
-        print("NUMERO 3")
+        print("CREDITS")
         self.titleButton = Button(self.myFrame,text="Title Screen",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(Zones[0]))
         self.titleButton.place(rely=0.85,relx=0.3,relwidth=0.4,relheight=0.1)
 
 class mainFrame(frame):
 
-    def __init__(self,parent,bg,dialogue):
-        super().__init__(parent,bg)
-        print("NUMERO 2")
+    def __init__(self,parent,bg,dialogue,song):
+        super().__init__(parent,bg,song)
+        print("FRAME")
         Zones.append(self)
 
         #variables
@@ -265,7 +273,7 @@ Se pueden apreciar las diferentes regiones de este mundo""",
 class portal(mainFrame):
 
     def __init__(self, parent):
-        super().__init__(parent,"images/portal.jpg","texts/portal.txt")
+        super().__init__(parent,"images/portal.jpg","texts/portal.txt","music/test.mp3")
         self.decisionPoints=[16,17,18]
         self.optionChecked=[[0,0,0,0],[0,0,0,0],[0,0,0,0]]
         self.options=[["poder","riquezas","conocimiento","experiencias"],
@@ -294,19 +302,19 @@ class portal(mainFrame):
 class morthenFrame(mainFrame):
 
     def __init__(self, parent):
-        super().__init__(parent,"images/morthen.jpg","texts/morthen.txt")
+        super().__init__(parent,"images/morthen.jpg","texts/morthen.txt","music/wolf and moon.mp3")
 
 
 class kanilikFrame(mainFrame):
 
     def __init__(self, parent):
-        super().__init__(parent,"images/selvaKanilik.jpg","texts/kanilik.txt")
+        super().__init__(parent,"images/selvaKanilik.jpg","texts/kanilik.txt","music/elfos nocturnos.mp3")
 
 
 
 class intralaFrame(mainFrame):
 
     def __init__(self, parent):
-        super().__init__(parent,"images/intrala.jpg","texts/intrala.txt")
+        super().__init__(parent,"images/intrala.jpg","texts/intrala.txt","music/aguas estancadas.mp3")
 
 #nota para mi : si las frames no se guardan en variables no se ven o se comportan raro
