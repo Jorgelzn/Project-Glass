@@ -30,7 +30,7 @@ class frame():
 class titleFrame(frame):
 
     def __init__(self,parent):
-        super().__init__(parent,"images/title.jpg","music/green.mp3")
+        super().__init__(parent,"images/title.jpg","music/wind spirit.mp3")
         print("TITLE")
         Zones.append(self)
         self.connectedFrames=[portal(self.parent),creditsFrame(self.parent)]
@@ -79,6 +79,9 @@ class mainFrame(frame):
 
         #variables
 
+        self.diaryNotes="""-He decidido adentrarme en el bosque en busca del portal que me llevará a Entoras
+Despues de varios dias de camino, encotre lo que buscaba\n"""
+
         self.decisionPoints=[]   #decice when to show the options to choose in dialogues ( 1d only)
         self.optionChecked=[]     #to store the decisions made in dialogues (1d or more dimensions)
         self.options=[]            #store text of the different options (1d or more dimensions)
@@ -98,6 +101,10 @@ class mainFrame(frame):
 
         self.descriptionFrame = Frame(self.myFrame,bg="#325062")
 
+        self.mapFrame = Frame(self.myFrame,bg="#325062")
+
+        self.diaryFrame = Frame(self.myFrame,bg="#325062")
+
         #opening text file
 
         self.textFile=open(dialogue,"r")
@@ -113,10 +120,24 @@ class mainFrame(frame):
         self.menuImage = Image.open(self.bg).filter(ImageFilter.BLUR)
         self.menuBg=ImageTk.PhotoImage(self.menuImage)
         self.bgLabel["image"]=self.menuBg
+        self.mapImage = ImageTk.PhotoImage(Image.open("images/bigmap.jpg"))
         self.inventoryImages = [ImageTk.PhotoImage(Image.open("images/question.png").resize((70,114))),
                                 ImageTk.PhotoImage(Image.open("images/map.jpg").resize((150,150)))]
         self.inventoryIcon = ImageTk.PhotoImage(Image.open("images/inventory.png").resize((200,160)))
         self.menuIcon = ImageTk.PhotoImage(Image.open("images/menu.png").resize((200,160)))
+
+        #MAP
+        self.mapL = Label(self.mapFrame,image=self.mapImage)
+        self.mapL.pack()
+        self.backM = Button(self.mapFrame,text="Back",bg="#325062",fg="#4FC6B2",borderwidth=5,activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.mapFrame.place_forget())
+        self.backM.place(rely=0.9,relx=0,relwidth=1,relheight=0.1)
+
+        #DIARY
+
+        self.diaryText = Label(self.diaryFrame,text=self.diaryNotes, relief="ridge",bg="#325062",fg="#4FC6B2",font=("Verdana", 10))
+        self.diaryText.place(rely=0,relx=0,relwidth=1,relheight=1)
+        self.backD = Button(self.diaryFrame,text="Back",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.diaryFrame.place_forget())
+        self.backD.place(rely=0.9,relx=0,relwidth=1,relheight=0.1)
 
 
         #MENU BUTTONS
@@ -126,11 +147,11 @@ class mainFrame(frame):
         self.titleButton = Button(self.menuFrame,text="Title Screen",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:[self.toggle(Zones[0]),self.hideElem(self.menuFrame)])
         self.titleButton.place(rely=0,relx=0,relwidth=1,relheight=0.25)
         
-        self.mapButton = Button(self.menuFrame,text="Map",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
+        self.mapButton = Button(self.menuFrame,text="Map",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggleElem(self.mapFrame,0,0,1,1))
         self.mapButton.place(rely=0.25,relx=0,relwidth=1,relheight=0.25)
 
-        self.questsButton = Button(self.menuFrame,text="Diary",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
-        self.questsButton.place(rely=0.5,relx=0,relwidth=1,relheight=0.25)
+        self.diaryButton = Button(self.menuFrame,text="Diary",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggleElem(self.diaryFrame,0.15,0.2,0.6,0.8))
+        self.diaryButton.place(rely=0.5,relx=0,relwidth=1,relheight=0.25)
 
         self.continueButton = Button(self.menuFrame,text="Continue",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.hideElem(self.menuFrame))
         self.continueButton.place(rely=0.75,relx=0,relwidth=1,relheight=0.25)
@@ -266,7 +287,9 @@ Se pueden apreciar las diferentes regiones de este mundo""",
 
     def chooseNext(self):
         pass
-
+    
+    def emptyfunc(self):
+        pass
 
 
 
@@ -274,11 +297,13 @@ class portal(mainFrame):
 
     def __init__(self, parent):
         super().__init__(parent,"images/portal.jpg","texts/portal.txt","music/test.mp3")
+        self.mapButton["command"]=lambda:self.emptyfunc()      #not allowed to use map before going inside the portal
         self.decisionPoints=[16,17,18]
         self.optionChecked=[[0,0,0,0],[0,0,0,0],[0,0,0,0]]
         self.options=[["poder","riquezas","conocimiento","experiencias"],
         ["mi familia","mis amigos","mi vida","no pienso dejar nada atras"],
         ["magia elemental","magia arcana","magia druidrica","necromancia y demonologia"],]
+
 
         for i in range(len(self.optionButtons)):
             self.optionButtons[i]["text"]=self.options[0][i]
@@ -297,24 +322,25 @@ class portal(mainFrame):
         followFrame=self.connectedFrames[self.nextF]                #variable para simplicidad de codigo
         followFrame.objects[0]["image"]=self.inventoryImages[1]      #when we go in the portal, the map is added
         followFrame.objects[0]["command"]=lambda:[followFrame.toggleElem(followFrame.descriptionFrame,0.1,0.15,0.7,0.8),followFrame.inventoryFrame.place_forget(),followFrame.setObjectDesc(followFrame.objects[0]["image"],followFrame.objectsDesc[0])]  #description of portal is added
-
+        if followFrame.diaryNotes not in followFrame.diaryText["text"]:
+            followFrame.diaryText["text"]+=followFrame.diaryNotes
         
 class morthenFrame(mainFrame):
 
     def __init__(self, parent):
         super().__init__(parent,"images/morthen.jpg","texts/morthen.txt","music/wolf and moon.mp3")
-
+        self.diaryNotes="""-Me encutro ante un enorme muro de hielo\n"""
 
 class kanilikFrame(mainFrame):
 
     def __init__(self, parent):
         super().__init__(parent,"images/selvaKanilik.jpg","texts/kanilik.txt","music/elfos nocturnos.mp3")
-
+        self.diaryNotes="""-Nunca antes habia visto una selva como esta\n"""
 
 
 class intralaFrame(mainFrame):
 
     def __init__(self, parent):
         super().__init__(parent,"images/intrala.jpg","texts/intrala.txt","music/aguas estancadas.mp3")
-
+        self.diaryNotes="""-Esta isla parece totalmente desabitada a primera vista\n"""
 #nota para mi : si las frames no se guardan en variables no se ven o se comportan raro
