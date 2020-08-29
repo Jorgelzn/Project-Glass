@@ -39,6 +39,7 @@ Music:""",fg="#4FC6B2",bg="#325062")
     def newAdventure(self):
         for i in range(1,len(Zones)):
             Zones[i].reset()
+        self.playButton["command"]=lambda:Zones[0].toggle(Zones[1])
 
     def creditsToggle(self):
         self.creditsText.place(rely=0.1,relx=0.3,relwidth=0.4,relheight=0.7)

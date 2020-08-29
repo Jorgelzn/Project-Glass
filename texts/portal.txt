@@ -17,5 +17,6 @@ En el portal se arremolinan unas motas de luz azul y escuchas una voz.
 "que quieres encontrar?"
 "que temes dejar atras?"
 "que aspecto de la magia utilizas?"
+"que actitud tienes ante los problemas?"
 "ya he determinado un destino para ti"
 De repente notas como una energia tira de ti hacia el portal.

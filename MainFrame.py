@@ -2,20 +2,18 @@ from Frame import *
 
 class mainFrame(frame):
 
-    def __init__(self,parent,bg,dialogue,song,number):
+    def __init__(self,parent,bg,dialogue,song,diaryEntry,number,options=None):
         super().__init__(parent,bg,song,number)
         print("FRAME")
 
         #variables
 
-        self.diaryNotes="""-He decidido adentrarme en el bosque en busca del portal que me llevará a Entoras
-Despues de varios dias de camino, encotre lo que buscaba\n"""
-
         self.decisionPoints=[]   #decice when to show the options to choose in dialogues ( 1d only)
         self.optionChecked=[]     #to store the decisions made in dialogues (1d or more dimensions)
-        self.options=[]            #store text of the different options (1d or more dimensions)
+        self.options=options            #store text of the different options (1d or more dimensions)
         self.actualDecision=0       #store the decision in which we are in the moment to keep track where we are in dialogue to iterate arrays of decions and options
         self.nextF = 0              #variable used to choose which will be the next frame to go in the array of connected frames
+        self.diaryNotes=diaryEntry
         #setting all frames
 
         self.textFrame=Frame(self.myFrame)
@@ -141,6 +139,10 @@ Se pueden apreciar las diferentes regiones de este mundo""",
         self.optionButtons[2].place(rely=0.5,relx=0,relwidth=1,relheight=0.25)
         self.optionButtons.append(Button(self.selector,text="",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.checkOption(3)))
         self.optionButtons[3].place(rely=0.75,relx=0,relwidth=1,relheight=0.25)
+
+        if self.options!=None:
+            for i in range(len(self.optionButtons)):                #setting first option is obtion buttons
+                self.optionButtons[i]["text"]=self.options[0][i]
      
 
 
@@ -202,7 +204,7 @@ Se pueden apreciar las diferentes regiones de este mundo""",
             for i in range(len(self.optionChecked[j])):
                 self.optionChecked[j][i]=0
 
-        if len(self.options)!=0:                        #if there is options in the frame
+        if self.options!=None:                        #if there is options in the frame
             for i in range(len(self.optionButtons)):
                 self.optionButtons[i]["text"]=self.options[self.actualDecision][i]      #change text of decision buttons for first option again
                 self.optionButtons[i]["bg"]="#325062"                                   #reset default color for buttons
