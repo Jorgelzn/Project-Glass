@@ -28,7 +28,9 @@ Hira Bilal
 Matt Sanz
 Brendon Paes
 
-Music:""",fg="#4FC6B2",bg="#325062")
+Music:
+BrunuhVille
+Two Steps From Hell""",fg="#4FC6B2",bg="#325062")
 
         self.titleButton = Button(self.myFrame,text="Back",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
         self.titleButton["command"]=lambda:self.backFromCredits()
