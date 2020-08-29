@@ -1,75 +1,4 @@
-from tkinter import *
-from PIL import Image,ImageTk,ImageFilter
-from pygame import mixer
-
-Zones=[]
-mixer.init()
-mixer.music.set_volume(1)
-class frame():
-
-    def __init__(self,parent,bg,song,number):
-        self.w=1000
-        self.h=800
-        self.bg = bg
-        self.parent=parent
-        self.myFrame = Frame(self.parent,width=self.w,height=self.h)
-        self.bgImage = ImageTk.PhotoImage(Image.open(self.bg))
-        self.bgLabel = Label(self.myFrame,image=self.bgImage)
-        self.bgLabel.pack()
-        self.song=song
-        Zones.insert(number,self)
-
-    def toggle(self,toelem):
-        self.myFrame.pack_forget()
-        toelem.myFrame.pack()
-        mixer.music.load(toelem.song)
-        mixer.music.play()
-
-
-
-class titleFrame(frame):
-
-    def __init__(self,parent):
-        super().__init__(parent,"images/title.jpg","music/wind spirit.mp3",0)
-        print("TITLE")
-        portal(self.parent)
-        #creditsFrame(self.parent)
-        self.playButton=Button(self.myFrame,text="Explore",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(Zones[1]))
-        self.playButton.place(rely=0.7,relx=0.4,relwidth=0.2,relheight=0.1)
-
-        self.restartButton=Button(self.myFrame,text="New Adventure",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:[self.toggle(Zones[1]),self.newAdventure()])
-        self.restartButton.place(rely=0.85,relx=0.4,relwidth=0.2,relheight=0.1)
-
-        self.creditsButton=Button(self.myFrame,text="Credits",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
-        self.creditsButton.place(rely=0.90,relx=0.05,relwidth=0.1,relheight=0.05)
-        mixer.music.load(self.song)
-        mixer.music.play()
-
-    def newAdventure(self):
-        for i in range(1,len(Zones)):
-            Zones[i].reset()
-
-"""class creditsFrame(frame):
-
-    def __init__(self, parent):
-        super().__init__(parent,"images/credits.jpg","music/green.mp3",1)
-        self.text=Label(self.myFrame,text=""""""Programmer and Designer:
-Jorge Lizcano
-
-Images:
-Chris Cold
-Luka Mivsek
-Hira Bilal
-Matt Sanz
-Brendon Paes
-
-Music:"""
-""",bg="#325062",fg="#4FC6B2",font=("Verdana", 10))
-        self.text.place(rely=0.1,relx=0.3,relwidth=0.4,relheight=0.7)
-        print("CREDITS")
-        self.titleButton = Button(self.myFrame,text="Title Screen",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(Zones[0]))
-        self.titleButton.place(rely=0.85,relx=0.3,relwidth=0.4,relheight=0.1)
-"""
+from Frame import *
 
 class mainFrame(frame):
 
@@ -117,7 +46,7 @@ Despues de varios dias de camino, encotre lo que buscaba\n"""
         self.mainImage = ImageTk.PhotoImage(Image.open(self.bg).resize((1000,int(0.7*800)), Image.ANTIALIAS))
         self.imageLabel = Label(self.graphicFrame,image=self.mainImage)
         self.imageLabel.place(rely=0,relx=0,relwidth=1,relheight=1)
-        self.menuImage = Image.open(self.bg).filter(ImageFilter.BLUR)
+        self.menuImage = Image.open(self.bg).filter(ImageFilter.BLUR)       #blur image for menu and inventory
         self.menuBg=ImageTk.PhotoImage(self.menuImage)
         self.bgLabel["image"]=self.menuBg
         self.mapImage = ImageTk.PhotoImage(Image.open("images/bigmap.jpg"))
@@ -288,60 +217,3 @@ Se pueden apreciar las diferentes regiones de este mundo""",
     
     def emptyfunc(self):
         pass
-
-
-
-class portal(mainFrame):
-
-    def __init__(self, parent):
-        super().__init__(parent,"images/portal.jpg","texts/portal.txt","music/test.mp3",1)
-        self.mapButton["command"]=lambda:self.emptyfunc()      #not allowed to use map before going inside the portal
-        self.decisionPoints=[16,17,18]
-        self.optionChecked=[[0,0,0,0],[0,0,0,0],[0,0,0,0]]
-        self.options=[["poder","riquezas","conocimiento","experiencias"],
-        ["mi familia","mis amigos","mi vida","no pienso dejar nada atras"],
-        ["magia elemental","magia arcana","magia druidrica","necromancia y demonologia"],]
-
-
-        for i in range(len(self.optionButtons)):
-            self.optionButtons[i]["text"]=self.options[0][i]
-
-    def chooseNext(self):
-        if self.optionChecked[2][1] or self.optionChecked[1][2] or self.optionChecked[0][3]:
-            self.nextF=2
-        elif self.optionChecked[0][1] or self.optionChecked[1][3] or self.optionChecked[2][3]:
-            self.nextF=3
-        else:
-            self.nextF=4
-
-        if len(Zones)<5:                #apaño cutre pa que no se vuelvan a crear las frames una vez introducidas por primera vez en Zones
-            morthenFrame(self.parent)
-            intralaFrame(self.parent)
-            kanilikFrame(self.parent)
-
-        followFrame=Zones[self.nextF]                #variable para simplicidad de codigo
-        followFrame.objects[0]["image"]=self.inventoryImages[1]      #when we go in the portal, the map is added
-        followFrame.objects[0]["command"]=lambda:[followFrame.toggleElem(followFrame.descriptionFrame,0.1,0.15,0.7,0.8),followFrame.inventoryFrame.place_forget(),followFrame.setObjectDesc(followFrame.objects[0]["image"],followFrame.objectsDesc[0])]  #description of portal is added
-        if followFrame.diaryNotes not in followFrame.diaryText["text"]:
-            followFrame.diaryText["text"]+=followFrame.diaryNotes
-        self.toggle(Zones[self.nextF])
-        
-class morthenFrame(mainFrame):
-
-    def __init__(self, parent):
-        super().__init__(parent,"images/morthen.jpg","texts/morthen.txt","music/wolf and moon.mp3",2)
-        self.diaryNotes="""-Me encutro ante un enorme muro de hielo\n"""
-
-class kanilikFrame(mainFrame):
-
-    def __init__(self, parent):
-        super().__init__(parent,"images/selvaKanilik.jpg","texts/kanilik.txt","music/elfos nocturnos.mp3",3)
-        self.diaryNotes="""-Nunca antes habia visto una selva como esta\n"""
-
-
-class intralaFrame(mainFrame):
-
-    def __init__(self, parent):
-        super().__init__(parent,"images/intrala.jpg","texts/intrala.txt","music/aguas estancadas.mp3",4)
-        self.diaryNotes="""-Esta isla parece totalmente desabitada a primera vista\n"""
-#nota para mi : si las frames no se guardan en variables no se ven o se comportan raro

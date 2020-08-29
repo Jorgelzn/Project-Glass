@@ -1,6 +1,6 @@
 from tkinter import *
-from Frames import *
 from PIL import Image,ImageTk
+from TitleFrame import titleFrame
 
 
 
