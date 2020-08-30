@@ -4,8 +4,15 @@ from Escenarios import portal
 class titleFrame(frame):
 
     def __init__(self,parent):
+
+        #global InventoryImages
+
         super().__init__(parent,"images/title.jpg","music/wind spirit.mp3",0)
         print("TITLE")
+        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/question.png").resize((70,114))))
+        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/map.jpg").resize((150,150))))
+        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/coin.jpg").resize((150,150))))
+
         portal(self.parent)
 
         self.playButton=Button(self.myFrame,text="Explore",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(Zones[1]))

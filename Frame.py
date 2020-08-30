@@ -3,6 +3,12 @@ from PIL import Image,ImageTk,ImageFilter
 from pygame import mixer
 
 Zones=[]
+InventoryImages=[]
+ObjectsDesc=["Objecto misterioso que aun no ha sido descubierto",
+"""Mapa de Entoras
+Se pueden apreciar las diferentes regiones de este mundo""",
+"""Moneda Pirata
+Utilizada por la gente de Intrala para el comercio"""]
 mixer.init()
 mixer.music.set_volume(1)
 

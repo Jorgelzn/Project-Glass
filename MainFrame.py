@@ -48,8 +48,6 @@ class mainFrame(frame):
         self.menuBg=ImageTk.PhotoImage(self.menuImage)
         self.bgLabel["image"]=self.menuBg
         self.mapImage = ImageTk.PhotoImage(Image.open("images/bigmap.jpg"))
-        self.inventoryImages = [ImageTk.PhotoImage(Image.open("images/question.png").resize((70,114))),
-                                ImageTk.PhotoImage(Image.open("images/map.jpg").resize((150,150)))]
         self.inventoryIcon = ImageTk.PhotoImage(Image.open("images/inventory.png").resize((200,160)))
         self.menuIcon = ImageTk.PhotoImage(Image.open("images/menu.png").resize((200,160)))
 
@@ -86,7 +84,7 @@ class mainFrame(frame):
 
         #DESCRIPTION BUTTONS
 
-        self.descriptionImageL = Label(self.descriptionFrame,bg="#325062",image=self.inventoryImages[0])
+        self.descriptionImageL = Label(self.descriptionFrame,bg="#325062",image=InventoryImages[0])
         self.descriptionImageL.place(rely=0,relx=0,relwidth=1,relheight=0.6)
         self.descriptionL = Label(self.descriptionFrame,text="",bg="#325062",fg="#4FC6B2",font=("Verdana", 15))
         self.descriptionL.place(rely=0.6,relx=0,relwidth=1,relheight=0.3)
@@ -101,22 +99,8 @@ class mainFrame(frame):
         self.continueButton = Button(self.inventoryFrame,text="Continue",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.hideElem(self.inventoryFrame))
         self.continueButton.place(rely=0.9,relx=0,relwidth=1,relheight=0.1)
         self.objects=[]
-        self.objectsDesc=["""Mapa de Entoras
-Se pueden apreciar las diferentes regiones de este mundo""",
-                          "Objecto misterioso que aun no ha sido descubierto",
-                          "Objecto misterioso que aun no ha sido descubierto",
-                          "Objecto misterioso que aun no ha sido descubierto",
-                          "Objecto misterioso que aun no ha sido descubierto",
-                          "Objecto misterioso que aun no ha sido descubierto",
-                          "Objecto misterioso que aun no ha sido descubierto",
-                          "Objecto misterioso que aun no ha sido descubierto",
-                          "Objecto misterioso que aun no ha sido descubierto",
-                          "Objecto misterioso que aun no ha sido descubierto",
-                          "Objecto misterioso que aun no ha sido descubierto",
-                          "Objecto misterioso que aun no ha sido descubierto",
-        ]
         for i in range(12):
-            self.objects.append(Button(self.inventoryFrame,bg="#325062",activebackground="#325062",width=169,height=185,image=self.inventoryImages[0],command=lambda:[self.toggleElem(self.descriptionFrame,0.1,0.15,0.7,0.8),self.inventoryFrame.place_forget(),self.setObjectDesc(self.objects[i]["image"],self.objectsDesc[1])]))
+            self.objects.append(Button(self.inventoryFrame,bg="#325062",activebackground="#325062",width=169,height=185,image=InventoryImages[0],command=lambda:[self.toggleElem(self.descriptionFrame,0.1,0.15,0.7,0.8),self.inventoryFrame.place_forget(),self.setObjectDesc(self.objects[i]["image"],ObjectsDesc[0])]))
             self.objects[i].grid(row=int(i/4),column=int(i%4))
 
 
@@ -213,6 +197,10 @@ Se pueden apreciar las diferentes regiones de este mundo""",
     def setObjectDesc(self,image,text):
         self.descriptionImageL["image"]=image
         self.descriptionL["text"]=text
+
+    def changeObject(self,image,desc,number):
+        self.objects[number]["image"]=image      #image of object is changed
+        self.objects[number]["command"]=lambda:[self.toggleElem(self.descriptionFrame,0.1,0.15,0.7,0.8),self.inventoryFrame.place_forget(),self.setObjectDesc(self.objects[number]["image"],desc)]  #description of object is added
 
     def chooseNext(self):
         pass
