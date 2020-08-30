@@ -11,7 +11,10 @@ class titleFrame(frame):
         print("TITLE")
         InventoryImages.append(ImageTk.PhotoImage(Image.open("images/question.png").resize((70,114))))
         InventoryImages.append(ImageTk.PhotoImage(Image.open("images/map.jpg").resize((150,150))))
-        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/coin.jpg").resize((150,150))))
+        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/coin.png").resize((150,150))))
+        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/rune.png").resize((250,200))))
+        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/amulet.jpg").resize((150,150))))
+        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/ring.jpg").resize((150,150))))
 
         portal(self.parent)
 

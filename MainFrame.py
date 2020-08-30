@@ -56,7 +56,14 @@ class mainFrame(frame):
         self.mapL.pack()
         self.backM = Button(self.mapFrame,text="Back",bg="#325062",fg="#4FC6B2",borderwidth=5,activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.mapFrame.place_forget())
         self.backM.place(rely=0.9,relx=0,relwidth=1,relheight=0.1)
-
+        self.intralaMap=Button(self.mapFrame,text="Intrala",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
+        self.intralaMap.place(rely=0.6,relx=0.05,relwidth=0.1,relheight=0.1)
+        self.iretZarMap=Button(self.mapFrame,text="Iret-Zar",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
+        self.iretZarMap.place(rely=0.6,relx=0.5,relwidth=0.1,relheight=0.1)
+        self.morthenMap=Button(self.mapFrame,text="Morthen",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
+        self.morthenMap.place(rely=0.1,relx=0.2,relwidth=0.1,relheight=0.1)
+        self.kanilikMap=Button(self.mapFrame,text="Kanilik",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15))
+        self.kanilikMap.place(rely=0.3,relx=0.4,relwidth=0.1,relheight=0.1)
         #DIARY
 
         self.diaryText = Label(self.diaryFrame,text=self.diaryNotes, relief="ridge",bg="#325062",fg="#4FC6B2",font=("Verdana", 10))

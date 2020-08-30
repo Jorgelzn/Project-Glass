@@ -8,7 +8,14 @@ ObjectsDesc=["Objecto misterioso que aun no ha sido descubierto",
 """Mapa de Entoras
 Se pueden apreciar las diferentes regiones de este mundo""",
 """Moneda Pirata
-Utilizada por la gente de Intrala para el comercio"""]
+Utilizada por la gente de Intrala para el comercio""",
+"""Runa de escarcha
+Desprende una leve energía mágica""",
+"""Amuleto salvaje
+Un colmillo tallado cuelga de la cuerda""",
+"""Anillo solar
+Una gema naranja brilla en el centro del anillo.
+Aparenta haber estado muchos años enterrado"""]
 mixer.init()
 mixer.music.set_volume(1)
 

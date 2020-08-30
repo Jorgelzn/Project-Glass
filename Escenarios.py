@@ -37,13 +37,14 @@ class morthenFrame(mainFrame):
     def __init__(self, parent,prevDiaryEntry):
         super().__init__(parent,"images/morthen.jpg","texts/morthen.txt","music/wolf and moon.mp3",prevDiaryEntry+"""-Me encuentro ante un enorme muro de hielo\n""",2)
         self.changeObject(InventoryImages[1],ObjectsDesc[1],0)
+        self.changeObject(InventoryImages[3],ObjectsDesc[3],1)
 
 class kanilikFrame(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
         super().__init__(parent,"images/selvaKanilik.jpg","texts/kanilik.txt","music/elfos nocturnos.mp3",prevDiaryEntry+"""-Nunca antes habia visto una selva como esta\n""",3)
         self.changeObject(InventoryImages[1],ObjectsDesc[1],0)
-
+        self.changeObject(InventoryImages[4],ObjectsDesc[4],1)
 
 
 class intralaFrame(mainFrame):
@@ -57,3 +58,4 @@ class iretZarFrame(mainFrame):
     def __init__(self, parent,prevDiaryEntry):
         super().__init__(parent,"images/iret-zar.jpg","texts/iret-zar.txt","music/desert.mp3",prevDiaryEntry+"""-Parece que este desierto no tiene final\n""",5)
         self.changeObject(InventoryImages[1],ObjectsDesc[1],0)
+        self.changeObject(InventoryImages[5],ObjectsDesc[5],1)
