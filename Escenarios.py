@@ -36,26 +36,27 @@ class morthenFrame(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
         super().__init__(parent,"images/morthen.jpg","texts/morthen.txt","music/wolf and moon.mp3",prevDiaryEntry+"""-Me encuentro ante un enorme muro de hielo\n""",2)
-        self.changeObject(InventoryImages[1],ObjectsDesc[1],0)
-        self.changeObject(InventoryImages[3],ObjectsDesc[3],1)
+        self.changeObject(InventoryImages[1],ObjectsDesc[1])
+        self.changeObject(InventoryImages[3],ObjectsDesc[3])
+
 
 class kanilikFrame(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
         super().__init__(parent,"images/selvaKanilik.jpg","texts/kanilik.txt","music/elfos nocturnos.mp3",prevDiaryEntry+"""-Nunca antes habia visto una selva como esta\n""",3)
-        self.changeObject(InventoryImages[1],ObjectsDesc[1],0)
-        self.changeObject(InventoryImages[4],ObjectsDesc[4],1)
+        self.changeObject(InventoryImages[1],ObjectsDesc[1])
+        self.changeObject(InventoryImages[4],ObjectsDesc[4])
 
 
 class intralaFrame(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
         super().__init__(parent,"images/intrala.jpg","texts/intrala.txt","music/aguas estancadas.mp3",prevDiaryEntry+"""-Esta isla parece totalmente deshabitada a primera vista\n""",4)
-        self.changeObject(InventoryImages[1],ObjectsDesc[1],0)
-        self.changeObject(InventoryImages[2],ObjectsDesc[2],1)
+        self.changeObject(InventoryImages[1],ObjectsDesc[1])
+        self.changeObject(InventoryImages[2],ObjectsDesc[2])
 class iretZarFrame(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
         super().__init__(parent,"images/iret-zar.jpg","texts/iret-zar.txt","music/desert.mp3",prevDiaryEntry+"""-Parece que este desierto no tiene final\n""",5)
-        self.changeObject(InventoryImages[1],ObjectsDesc[1],0)
-        self.changeObject(InventoryImages[5],ObjectsDesc[5],1)
+        self.changeObject(InventoryImages[1],ObjectsDesc[1])
+        self.changeObject(InventoryImages[5],ObjectsDesc[5])

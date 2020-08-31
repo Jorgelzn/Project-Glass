@@ -15,7 +15,7 @@ class titleFrame(frame):
         InventoryImages.append(ImageTk.PhotoImage(Image.open("images/rune.png").resize((250,200))))
         InventoryImages.append(ImageTk.PhotoImage(Image.open("images/amulet.jpg").resize((150,150))))
         InventoryImages.append(ImageTk.PhotoImage(Image.open("images/ring.jpg").resize((150,150))))
-
+        
         portal(self.parent)
 
         self.playButton=Button(self.myFrame,text="Explore",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(Zones[1]))

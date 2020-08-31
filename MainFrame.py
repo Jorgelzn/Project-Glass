@@ -110,7 +110,6 @@ class mainFrame(frame):
             self.objects.append(Button(self.inventoryFrame,bg="#325062",activebackground="#325062",width=169,height=185,image=InventoryImages[0],command=lambda:[self.toggleElem(self.descriptionFrame,0.1,0.15,0.7,0.8),self.inventoryFrame.place_forget(),self.setObjectDesc(self.objects[i]["image"],ObjectsDesc[0])]))
             self.objects[i].grid(row=int(i/4),column=int(i%4))
 
-
         #TEXT DISPLAY AND ACTION BUTTON
         self.text = Label(self.textFrame,text=self.phrases[self.actualPhrase],borderwidth=10, relief="ridge",bg="#325062",fg="#4FC6B2",font=("Verdana", 15))
         self.text.place(rely=0,relx=0,relwidth=0.8,relheight=1)
@@ -205,9 +204,13 @@ class mainFrame(frame):
         self.descriptionImageL["image"]=image
         self.descriptionL["text"]=text
 
-    def changeObject(self,image,desc,number):
-        self.objects[number]["image"]=image      #image of object is changed
-        self.objects[number]["command"]=lambda:[self.toggleElem(self.descriptionFrame,0.1,0.15,0.7,0.8),self.inventoryFrame.place_forget(),self.setObjectDesc(self.objects[number]["image"],desc)]  #description of object is added
+    def changeObject(self,image,desc):
+        counter=0
+        for i in range(len(self.objects)):                  #loop to choose the next available position in inventory (next position with an ? in it)
+            if self.objects[i]["image"]!=self.objects[len(self.objects)-1]["image"]:
+                counter+=1
+        self.objects[counter]["image"]=image      #image of object is changed
+        self.objects[counter]["command"]=lambda:[self.toggleElem(self.descriptionFrame,0.1,0.15,0.7,0.8),self.inventoryFrame.place_forget(),self.setObjectDesc(self.objects[counter]["image"],desc)]  #description of object is added
 
     def chooseNext(self):
         pass
