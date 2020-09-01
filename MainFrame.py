@@ -156,17 +156,20 @@ class mainFrame(frame):
         if self.actualPhrase in self.decisionPoints:        #if we are in a decision point of the dialogue, it is replaced by the options table in order to choose
             self.selector.place(rely=0,relx=0,relwidth=0.8,relheight=1)
             if 1 in self.optionChecked[self.actualDecision]:        #if in the actual decision (self.optionChecked[actual]) there is a one
-                self.actualDecision+=1              #next decision for next decision point
+                if self.actualPhrase==len(self.phrases)-1:      #if we are in the last phrase of the dialogue execute method chooseNext to decide what to do
+                    self.chooseNext()
+                else:
+                    self.actualDecision+=1              #next decision for next decision point
+                    self.actualPhrase+=1                #go to next phrase
+                    self.text["text"]=self.phrases[self.actualPhrase]   #change text to next phrase
                 self.selector.place_forget()        #go back to text hiding selector
-                self.actualPhrase+=1                #go to next phrase
-                self.text["text"]=self.phrases[self.actualPhrase]   #change text to next phrase
                 if self.actualDecision in range(len(self.options)):
                     for i in range(len(self.optionButtons)):
                         self.optionButtons[i]["text"]=self.options[self.actualDecision][i]      #change text of decision buttons for next decision
                         self.optionButtons[i]["bg"]="#325062"                                   #reset default color for buttons
                         self.optionButtons[i]["activebackground"]="#325062"
         else:                                               #if we are not in a decision the dialogue proceeds as normal
-            if self.actualPhrase==len(self.phrases)-1:      #if we are in the last phrase of the dialogue we will go to the next frame
+            if self.actualPhrase==len(self.phrases)-1:      #if we are in the last phrase of the dialogue execute method chooseNext to decide what to do
                     self.chooseNext()
             else:                                           #the normal case is that we just go to the next phrase in the dialogue
                 self.actualPhrase+=1
