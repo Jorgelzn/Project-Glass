@@ -5,6 +5,7 @@ class mainFrame(frame):
     def __init__(self,parent,bg,dialogue,song,diaryEntry,number,name,options=None,decisions=None):
         super().__init__(parent,bg,song,number,name)
         print("FRAME")
+
         #variables
         self.decisionPoints=[[]]
         if decisions!=None:
@@ -20,6 +21,8 @@ class mainFrame(frame):
         self.diaryNotes=diaryEntry
         self.countDialogue=0
         self.countDecisions=0
+        self.objectsName=[]
+
         #setting all frames
 
         self.textFrame=Frame(self.myFrame)
@@ -200,11 +203,13 @@ class mainFrame(frame):
 
     def changeObject(self,image,desc):
         counter=0
-        for i in range(len(self.objects)):                  #loop to choose the next available position in inventory (next position with an ? in it)
-            if self.objects[i]["image"]!=self.objects[len(self.objects)-1]["image"]:
-                counter+=1
-        self.objects[counter]["image"]=image      #image of object is changed
-        self.objects[counter]["command"]=lambda:[self.toggleElem(self.descriptionFrame,0.1,0.15,0.7,0.8),self.inventoryFrame.place_forget(),self.setObjectDesc(self.objects[counter]["image"],desc)]  #description of object is added
+        if desc not in self.objectsName:
+            self.objectsName.append(desc)
+            for i in range(len(self.objects)):                  #loop to choose the next available position in inventory (next position with an ? in it)
+                if self.objects[i]["image"]!=self.objects[len(self.objects)-1]["image"]:
+                    counter+=1
+            self.objects[counter]["image"]=image      #image of object is changed
+            self.objects[counter]["command"]=lambda:[self.toggleElem(self.descriptionFrame,0.1,0.15,0.7,0.8),self.inventoryFrame.place_forget(),self.setObjectDesc(self.objects[counter]["image"],desc)]  #description of object is added
 
     def optionChooser(self,optionsToCheck):
         selector=[0,0,0,0]
@@ -228,6 +233,13 @@ class mainFrame(frame):
         for i in range(len(self.optionChecked[self.countDecisions])):
             for j in range(len(self.optionChecked[self.countDecisions][i])):
                 self.optionChecked[self.countDecisions][i][j]=0
+
+    def copyingObjects(self,elem):
+        for i in range(len(self.objects)):
+            if i < len(self.objectsName):
+                elem.changeObject(self.objects[i]["image"],self.objectsName[i])
+            else:
+                elem.changeObject(self.objects[i]["image"],ObjectsDesc[0])
 
     def chooseNext(self):
         pass

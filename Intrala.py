@@ -24,7 +24,7 @@ class intralaFrame(mainFrame):
                 self.dialogueChanger(3,1)
 
 
-        elif self.countDialogue==1:
+        elif self.countDialogue==1:             #dialogue for changing zone
             #charge the following zone if it is not already in Zones
             checker=True
             for i in Zones:
@@ -35,6 +35,7 @@ class intralaFrame(mainFrame):
                 
             self.nextF=6
             Zones[0].playButton["command"]=lambda:Zones[0].toggle(Zones[self.nextF])   #if we go to title from next frame, if we touch play button we come back to that frame
+            self.copyingObjects(Zones[self.nextF])
             self.toggle(Zones[self.nextF])
 
         elif self.countDialogue==2:
