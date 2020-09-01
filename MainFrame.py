@@ -2,10 +2,9 @@ from Frame import *
 
 class mainFrame(frame):
 
-    def __init__(self,parent,bg,dialogue,song,diaryEntry,number,options=None,decisions=None):
-        super().__init__(parent,bg,song,number)
+    def __init__(self,parent,bg,dialogue,song,diaryEntry,number,name,options=None,decisions=None):
+        super().__init__(parent,bg,song,number,name)
         print("FRAME")
-
         #variables
         self.decisionPoints=[]
         if decisions!=None:
@@ -166,7 +165,7 @@ class mainFrame(frame):
                 else:
                     self.actualPhrase+=1                #go to next phrase
                     self.text["text"]=self.phrases[self.countDialogue][self.actualPhrase]   #change text to next phrase
-                self.actualDecision+=1              #next decision for next decision point
+                    self.actualDecision+=1              #next decision for next decision point
                 self.selector.place_forget()        #go back to text hiding selector
                 if self.actualDecision in range(len(self.options)):
                     for i in range(len(self.optionButtons)):
@@ -219,8 +218,12 @@ class mainFrame(frame):
     
     def dialogueChanger(self,number):
         self.actualPhrase=0
+        self.actualDecision=0
         self.countDialogue=number
         self.text["text"]=self.phrases[self.countDialogue][self.actualPhrase]   #change text to next phrase
+        for i in range(len(self.optionChecked)):
+            for j in range(len(self.optionChecked[i])):
+                self.optionChecked[i][j]=0
 
     def chooseNext(self):
         pass

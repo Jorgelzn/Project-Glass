@@ -21,17 +21,24 @@ mixer.music.set_volume(1)
 
 class frame():
 
-    def __init__(self,parent,bg,song,number):
+    def __init__(self,parent,bg,song,number,name):
         self.w=1000
         self.h=800
         self.bg = bg
         self.parent=parent
+        self.name=name
         self.myFrame = Frame(self.parent,width=self.w,height=self.h)
         self.bgImage = ImageTk.PhotoImage(Image.open(self.bg))
         self.bgLabel = Label(self.myFrame,image=self.bgImage)
         self.bgLabel.pack()
         self.song=song
-        Zones.insert(number,self)
+
+        checking=True               #comprobation that the frame is not already in the Zones list before inserting
+        for i in Zones:             
+            if self.name==i.name:
+                checking=False
+        if checking:
+            Zones.insert(number,self)           #insert the frame in the zones list
 
     def toggle(self,toelem):
         self.myFrame.pack_forget()

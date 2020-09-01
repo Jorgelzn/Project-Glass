@@ -7,7 +7,7 @@ class titleFrame(frame):
 
         #global InventoryImages
 
-        super().__init__(parent,"images/title.jpg","music/wind spirit.mp3",0)
+        super().__init__(parent,"images/title.jpg","music/wind spirit.mp3",0,"title")
         print("TITLE")
         InventoryImages.append(ImageTk.PhotoImage(Image.open("images/question.png").resize((70,114))))
         InventoryImages.append(ImageTk.PhotoImage(Image.open("images/map.jpg").resize((150,150))))

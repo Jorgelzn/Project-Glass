@@ -1,15 +1,18 @@
 from MainFrame import *
-
+from Intrala import intralaFrame
+from Morthen import morthenFrame
+from Kanilik import kanilikFrame
+from IretZar import iretZarFrame
 class portal(mainFrame):
 
     def __init__(self, parent):
         super().__init__(parent,"images/portal.jpg",["texts/portal.txt"],"music/test.mp3","""-He decidido adentrarme en el bosque en busca del portal que me llevará a Entoras
-Despues de varios dias de camino, encotre lo que buscaba\n""",1,
-        [["poder","riquezas","conocimiento","experiencias"],
-        ["mi familia","mis amigos","mi vida","no pienso dejar nada atras"],
-        ["magia elemental","magia arcana","magia druidrica","necromancia y demonologia"],
-        ["Los resuelvo por la fuerza","Utilizo mi ingenio","Intento no meterme en problemas","Todo se puede resolver hablando"]],
-        [16,17,18,19])
+Despues de varios dias de camino, encotre lo que buscaba\n""",1,"portal",
+        [["conocimiento","experiencias","poder","riquezas"],
+        ["mi familia","mis amigos","no pienso dejar nada atras","mi vida"],
+        ["magia elemental","magia druidrica","necromancia y demonologia","magia arcana"],
+        ["Intento no meterme en problemas","Los resuelvo por la fuerza","Utilizo mi ingenio","Todo se puede resolver hablando"]],
+        [16,17,18,19])     #nota para despues : implementar que la lista de decision points sea array 2d [[]] para que cada lista este asociada a un dialogo
 
         self.mapButton["command"]=lambda:self.emptyfunc()      #not allowed to use map before going inside the portal
 
@@ -17,57 +20,12 @@ Despues de varios dias de camino, encotre lo que buscaba\n""",1,
         selector = self.optionChooser(self.optionChecked)
         print(selector)
         self.nextF=selector.index(max(selector))+2  #el +2 es para cuadrar con el numero de zona de las cuatro iniciales
-        if len(Zones)<5:                #apaño cutre pa que no se vuelvan a crear las frames solo una vez introducidas por primera vez en Zones
-            morthenFrame(self.parent,self.diaryNotes)
-            intralaFrame(self.parent,self.diaryNotes)
-            kanilikFrame(self.parent,self.diaryNotes)
-            iretZarFrame(self.parent,self.diaryNotes)               
+        
+        morthenFrame(self.parent,self.diaryNotes)
+        intralaFrame(self.parent,self.diaryNotes)
+        kanilikFrame(self.parent,self.diaryNotes)
+        iretZarFrame(self.parent,self.diaryNotes)               
 
         Zones[0].playButton["command"]=lambda:Zones[0].toggle(Zones[self.nextF])   #if we go to title from next frame, if we touch play button we come back to that frame
         self.toggle(Zones[self.nextF])
-        
-class morthenFrame(mainFrame):
 
-    def __init__(self, parent,prevDiaryEntry):
-        super().__init__(parent,"images/morthen.jpg",["texts/morthen.txt"],"music/wolf and moon.mp3",prevDiaryEntry+"""-Me encuentro ante un enorme muro de hielo\n""",2)
-        self.changeObject(InventoryImages[1],ObjectsDesc[1]) #put map
-        self.changeObject(InventoryImages[3],ObjectsDesc[3])
-
-
-class kanilikFrame(mainFrame):
-
-    def __init__(self, parent,prevDiaryEntry):
-        super().__init__(parent,"images/selvaKanilik.jpg",["texts/kanilik.txt"],"music/elfos nocturnos.mp3",prevDiaryEntry+"""-Nunca antes habia visto una selva como esta\n""",3)
-        self.changeObject(InventoryImages[1],ObjectsDesc[1]) #put map
-
-        self.changeObject(InventoryImages[4],ObjectsDesc[4])
-
-
-class intralaFrame(mainFrame):
-
-    def __init__(self, parent,prevDiaryEntry):
-        super().__init__(parent,"images/intrala.jpg",["texts/intrala.txt","texts/intralatesting1.txt","texts/intralatesting2.txt"]
-        ,"music/aguas estancadas.mp3",prevDiaryEntry+"""-Esta isla parece totalmente deshabitada a primera vista\n""",4,
-        [["inspeccionar la arena","ir a la ciudad","quedarse en la playa","Observar el mar"]],
-        [5])
-
-        self.changeObject(InventoryImages[1],ObjectsDesc[1])   #put map
-
-    def chooseNext(self):
-        if self.countDialogue==0:  #only do this in first decision
-            selector=self.optionChooser(self.optionChecked[0])
-            if selector[0]==1:
-                self.changeObject(InventoryImages[2],ObjectsDesc[2])
-                self.dialogueChanger(2)
-            elif selector[1]==1:
-                self.dialogueChanger(1)
-
-
-
-class iretZarFrame(mainFrame):
-
-    def __init__(self, parent,prevDiaryEntry):
-        super().__init__(parent,"images/iret-zar.jpg",["texts/iret-zar.txt"],"music/desert.mp3",prevDiaryEntry+"""-Parece que este desierto no tiene final\n""",5)
-        self.changeObject(InventoryImages[1],ObjectsDesc[1])  #put map
-
-        self.changeObject(InventoryImages[5],ObjectsDesc[5])
