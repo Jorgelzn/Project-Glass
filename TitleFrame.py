@@ -21,7 +21,7 @@ class titleFrame(frame):
         self.playButton=Button(self.myFrame,text="Explore",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(Zones[1]))
         self.playButton.place(rely=0.7,relx=0.4,relwidth=0.2,relheight=0.1)
 
-        self.restartButton=Button(self.myFrame,text="New Adventure",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:[self.toggle(Zones[1]),self.newAdventure()])
+        self.restartButton=Button(self.myFrame,text="New Adventure",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:[self.newAdventure(),self.toggle(Zones[1])])
         self.restartButton.place(rely=0.85,relx=0.4,relwidth=0.2,relheight=0.1)
 
         self.creditsButton=Button(self.myFrame,text="Credits",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.creditsToggle())
@@ -49,9 +49,11 @@ Two Steps From Hell""",fg="#4FC6B2",bg="#325062")
         mixer.music.play()
 
     def newAdventure(self):
-        for i in range(1,len(Zones)):
-            Zones[i].reset()
-        self.playButton["command"]=lambda:Zones[0].toggle(Zones[1])
+        Zones.clear()
+        InventoryImages.clear()
+        Zones.append(titleFrame(self.parent))
+        Zones.pop()
+
 
     def creditsToggle(self):
         self.creditsText.place(rely=0.1,relx=0.3,relwidth=0.4,relheight=0.7)

@@ -192,22 +192,6 @@ class mainFrame(frame):
         self.graphicFrame.place(rely=0,relx=0,relwidth=1,relheight=0.7)
         self.textFrame.place(rely=0.7,relx=0,relwidth=1,relheight=0.3)
 
-    def reset(self):                                            #reset values of selected 
-
-        self.actualPhrase=0
-        self.actualDecision=0
-        self.text["text"]=self.phrases[self.countDialogue][self.actualPhrase]
-
-        for j in range(len(self.optionChecked)):            #set all decisions to 0
-            for i in range(len(self.optionChecked[j])):
-                self.optionChecked[j][i]=0
-
-        if self.options!=None:                        #if there is options in the frame
-            for i in range(len(self.optionButtons)):
-                self.optionButtons[i]["text"]=self.options[self.actualDecision][i]      #change text of decision buttons for first option again
-                self.optionButtons[i]["bg"]="#325062"                                   #reset default color for buttons
-                self.optionButtons[i]["activebackground"]="#325062"
-
     def setObjectDesc(self,image,text):
         self.descriptionImageL["image"]=image
         self.descriptionL["text"]=text
