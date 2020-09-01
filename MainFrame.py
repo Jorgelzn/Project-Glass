@@ -6,17 +6,20 @@ class mainFrame(frame):
         super().__init__(parent,bg,song,number,name)
         print("FRAME")
         #variables
-        self.decisionPoints=[]
+        self.decisionPoints=[[]]
         if decisions!=None:
             self.decisionPoints=decisions   #decice when to show the options to choose in dialogues ( 1d only)
         self.optionChecked=[]     #to store the decisions made in dialogues (1d or more dimensions)
         for i in range(len(self.decisionPoints)):
-            self.optionChecked.append([0,0,0,0])
+            self.optionChecked.append([])
+            for j in range(len(self.decisionPoints[i])):
+                self.optionChecked[i].append([0,0,0,0])
         self.options=options            #store text of the different options (1d or more dimensions)
         self.actualDecision=0       #store the decision in which we are in the moment to keep track where we are in dialogue to iterate arrays of decions and options
         self.nextF = 0              #variable used to choose which will be the next frame to go in the array of connected frames
         self.diaryNotes=diaryEntry
         self.countDialogue=0
+        self.countDecisions=0
         #setting all frames
 
         self.textFrame=Frame(self.myFrame)
@@ -136,14 +139,14 @@ class mainFrame(frame):
 
         if self.options!=None:
             for i in range(len(self.optionButtons)):                #setting first option is obtion buttons
-                self.optionButtons[i]["text"]=self.options[0][i]
+                self.optionButtons[i]["text"]=self.options[self.countDecisions][0][i]
      
 
 
     def checkOption(self,number):                           #function used to check which option is selected in the decision and store it in the optionchecked array
-        if 1 in self.optionChecked[self.actualDecision]:
-            for i in range(len(self.optionChecked[self.actualDecision])):
-                self.optionChecked[self.actualDecision][i]=0
+        if 1 in self.optionChecked[self.countDecisions][self.actualDecision]:
+            for i in range(len(self.optionChecked[self.countDecisions][self.actualDecision])):
+                self.optionChecked[self.countDecisions][self.actualDecision][i]=0
         for i in range(len(self.optionButtons)):
             if i == number:
                 self.optionButtons[i]["bg"]="#406070"
@@ -151,15 +154,15 @@ class mainFrame(frame):
             else:
                 self.optionButtons[i]["bg"]="#325062"
                 self.optionButtons[i]["activebackground"]="#325062"
-        self.optionChecked[self.actualDecision][number]=1
-        print(self.optionChecked)
+        self.optionChecked[self.countDecisions][self.actualDecision][number]=1
+        print(self.optionChecked[self.countDecisions])
 
 
     def action(self):                                   #function used to determine what to do when the button next is pressed
 
-        if self.actualPhrase in self.decisionPoints:        #if we are in a decision point of the dialogue, it is replaced by the options table in order to choose
+        if self.actualPhrase in self.decisionPoints[self.countDecisions]:        #if we are in a decision point of the dialogue, it is replaced by the options table in order to choose
             self.selector.place(rely=0,relx=0,relwidth=0.8,relheight=1)
-            if 1 in self.optionChecked[self.actualDecision]:        #if in the actual decision (self.optionChecked[actual]) there is a one
+            if 1 in self.optionChecked[self.countDecisions][self.actualDecision]:        #if in the actual decision (self.optionChecked[actual]) there is a one
                 if self.actualPhrase==len(self.phrases[self.countDialogue])-1:      #if we are in the last phrase of the dialogue execute method chooseNext to decide what to do
                     self.chooseNext()
                 else:
@@ -167,9 +170,9 @@ class mainFrame(frame):
                     self.text["text"]=self.phrases[self.countDialogue][self.actualPhrase]   #change text to next phrase
                     self.actualDecision+=1              #next decision for next decision point
                 self.selector.place_forget()        #go back to text hiding selector
-                if self.actualDecision in range(len(self.options)):
+                if self.actualDecision in range(len(self.options[self.countDecisions])):
                     for i in range(len(self.optionButtons)):
-                        self.optionButtons[i]["text"]=self.options[self.actualDecision][i]      #change text of decision buttons for next decision
+                        self.optionButtons[i]["text"]=self.options[self.countDecisions][self.actualDecision][i]      #change text of decision buttons for next decision
                         self.optionButtons[i]["bg"]="#325062"                                   #reset default color for buttons
                         self.optionButtons[i]["activebackground"]="#325062"
         else:                                               #if we are not in a decision the dialogue proceeds as normal
@@ -216,14 +219,15 @@ class mainFrame(frame):
                         selector[j]+=1
         return selector
     
-    def dialogueChanger(self,number):
+    def dialogueChanger(self,number,deci=0):
         self.actualPhrase=0
         self.actualDecision=0
+        self.countDecisions=deci
         self.countDialogue=number
         self.text["text"]=self.phrases[self.countDialogue][self.actualPhrase]   #change text to next phrase
-        for i in range(len(self.optionChecked)):
-            for j in range(len(self.optionChecked[i])):
-                self.optionChecked[i][j]=0
+        for i in range(len(self.optionChecked[self.countDecisions])):
+            for j in range(len(self.optionChecked[self.countDecisions][i])):
+                self.optionChecked[self.countDecisions][i][j]=0
 
     def chooseNext(self):
         pass
