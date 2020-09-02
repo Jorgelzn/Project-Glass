@@ -2,9 +2,10 @@ from tkinter import *
 from PIL import Image,ImageTk,ImageFilter
 from pygame import mixer
 
-Zones=[]
-InventoryImages=[]
-ObjectsDesc=["Objecto misterioso que aun no ha sido descubierto",
+Zones=[]                                                        #global array to store all the frames in the game
+InventoryImages=[]                                              #global array to store the images of the inventory
+ObjectsDesc=["""Objecto misterioso
+Todavía no ha sido descubierto""",
 """Mapa de Entoras
 Se pueden apreciar las diferentes regiones de este mundo""",
 """Moneda Pirata
@@ -26,22 +27,24 @@ class frame():
         self.h=800
         self.bg = bg
         self.parent=parent
-        self.name=name
+        self.name=name                                                      #name of the frame
         self.myFrame = Frame(self.parent,width=self.w,height=self.h)
         self.bgImage = ImageTk.PhotoImage(Image.open(self.bg))
         self.bgLabel = Label(self.myFrame,image=self.bgImage)
         self.bgLabel.pack()
-        self.song=song
+        self.song=song                                                      #song of the frame
+        self.number=number                                                  #position of the frame in the array of Zones
 
-        checking=True               #comprobation that the frame is not already in the Zones list before inserting
+        checking=True                                                       #checking that the frame is not already in the Zones list before inserting
         for i in Zones:             
             if self.name==i.name:
                 checking=False
         if checking:
-            Zones.insert(number,self)           #insert the frame in the zones list
+            Zones.insert(self.number,self)                                  #insert the frame in the zones list
 
-    def toggle(self,toelem):
-        self.myFrame.pack_forget()
-        toelem.myFrame.pack()
-        mixer.music.load(toelem.song)
-        mixer.music.play()
+    def toggle(self,toelem,music=False):                                    #method used to hide the actual frame and display the frame passed as parameter
+        self.myFrame.pack_forget()                                          #hide actual frame
+        toelem.myFrame.pack()                                               #display element
+        if music:                               
+            mixer.music.load(toelem.song)                                   #display music
+            mixer.music.play(loops=-1)                                      #loope=-1 means infinite loops of the song  

@@ -24,6 +24,7 @@ class mainFrame(frame):
         self.countDialogue=0                                #variable used to know in which dialogue  of the array of dialogues we are
         self.countDecisions=0                               #variable used to know which array of decisions we have to use of the options array
         self.objectsName=[]                                 #variable that is used to store the description of the objects in the frame inventory (to diferenciate between them as copy them to next frame)
+        self.loader=True                                    #variable used to create the frame objects just once
 
         #SETTING ALL THE FRAMES USED IN THE MAIN FRAME
 
@@ -42,8 +43,6 @@ class mainFrame(frame):
         self.mapFrame = Frame(self.myFrame,bg="#325062")                    #frame used to display the map once the map button is used
 
         self.diaryFrame = Frame(self.myFrame,bg="#325062")                  #frame used to display the diary when the diary button is used
-
-        self.selector = Frame(self.textFrame,bg="#325062")                  #frame used to place the buttons for a decision to be choosen, will be placed in the textframe
 
         #opening text files
         self.phrases=[]                                                     #array storing all the dialogues and phrases, it is 2d to store all the dialogues [["dialogue","1"],["dialogue","2"]]
@@ -100,7 +99,7 @@ class mainFrame(frame):
         self.menuButton=Button(self.graphicFrame,bg="#325062",borderwidth=5, relief="raised",activebackground="#325062",image=self.menuIcon,command=lambda:self.toggleElem(self.menuFrame,0.15,0.35,0.3,0.7))
         self.menuButton.place(rely=0,relx=0,relwidth=0.2,relheight=0.25)
 
-        self.titleButton = Button(self.menuFrame,text="Title Screen",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:[self.toggle(Zones[0]),self.hideElem(self.menuFrame)])
+        self.titleButton = Button(self.menuFrame,text="Title Screen",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:[self.toggle(Zones[0],True),self.hideElem(self.menuFrame)])
         self.titleButton.place(rely=0,relx=0,relwidth=1,relheight=0.25)
         
         self.mapButton = Button(self.menuFrame,text="Map",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggleElem(self.mapFrame,0,0,1,1))
@@ -147,6 +146,7 @@ class mainFrame(frame):
 
         #SELECTOR OF OPTIONS IN DIALOGUE
         self.optionButtons=[]                                                           #array to store the 4 buttons of the options
+        self.selector = Frame(self.textFrame,bg="#325062")                              #frame used to place the buttons for a decision to be choosen, will be placed in the textframe
         self.optionButtons.append(Button(self.selector,text="",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.checkOption(0)))
         self.optionButtons[0].place(rely=0,relx=0,relwidth=1,relheight=0.25)            
         self.optionButtons.append(Button(self.selector,text="",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.checkOption(1)))
@@ -231,16 +231,11 @@ class mainFrame(frame):
 
 
     def optionChooser(self,optionsToCheck):             #method to sum up the decisions chosen in the option buttons and store them in the selector array
-        selector=[0,0,0,0]                              #each decision sums 1 to its position in the selector decision:[0,1,0,0]->selector:[x,y+1,z,t]
-        if type(optionsToCheck[0])==type(1):            #if options parameter is 1d we just use 1 loop to travel in the array
-            for i in range(4):
-                if optionsToCheck[i]==1:                #if the position is 1 add 1 to the same position in the selector
-                    selector[i]+=1                  
-        else:                                           #if the options parameter is 2d we use 2 loops to travel in the array
-            for i in optionsToCheck:        
-                for j in range(4):
-                    if i[j]==1:                         #if the position is 1 add 1 to the same position in the selector
-                        selector[j]+=1
+        selector=[0,0,0,0]                              #each decision sums 1 to its position in the selector decision:[0,1,0,0]->selector:[x,y+1,z,t]                                       #if the options parameter is 2d we use 2 loops to travel in the array
+        for i in optionsToCheck:        
+            for j in range(4):
+                if i[j]==1:                         #if the position is 1 add 1 to the same position in the selector
+                    selector[j]+=1
         return selector
     
 

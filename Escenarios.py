@@ -26,6 +26,6 @@ Despues de varios dias de camino, encotre lo que buscaba\n""",1,"portal",
         kanilikFrame(self.parent,self.diaryNotes)
         iretZarFrame(self.parent,self.diaryNotes)               
 
-        Zones[0].playButton["command"]=lambda:Zones[0].toggle(Zones[self.nextF])   #if we go to title from next frame, if we touch play button we come back to that frame
-        self.toggle(Zones[self.nextF])
+        Zones[0].playButton["command"]=lambda:Zones[0].toggle(Zones[self.nextF],True)   #if we go to title from next frame, if we touch play button we come back to that frame
+        self.toggle(Zones[self.nextF],True)
 

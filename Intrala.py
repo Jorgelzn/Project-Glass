@@ -10,37 +10,56 @@ class intralaFrame(mainFrame):
         [[5],[2]])
 
         self.changeObject(InventoryImages[1],ObjectsDesc[1])   #put map
+        self.imgNPC1 = ImageTk.PhotoImage(Image.open("images/test.png").resize((300,230)))                           #set npc image
+        self.labelNPC1 = Label(self.graphicFrame,image=self.imgNPC1,bg="#325062",borderwidth=5,relief="ridge")
 
     def chooseNext(self):
-        if self.countDialogue==0:                                                       #only do this in first decision
-            selector=self.optionChooser(self.optionChecked[self.countDecisions][0])
+        if self.countDialogue==0:                                                       #introduction dialogue
+            selector=self.optionChooser(self.optionChecked[self.countDecisions])
             if selector[0]==1:
-                self.changeObject(InventoryImages[2],ObjectsDesc[2])
-                self.dialogueChanger(2)
+                self.changeObject(InventoryImages[2],ObjectsDesc[2])                    #add coind to inventory
+                self.dialogueChanger(2)                                                 #go to dialogue 2
             elif selector[1]==1:
-                self.dialogueChanger(1)
+                self.dialogueChanger(1)                                                 #go to dialogue 1
             elif selector[2]==1:
-                self.dialogueChanger(3,1)
+                self.labelNPC1.place(rely=0.5,relx=0.5,relwidth=0.5,relheight=0.5)      #display npc
+                self.dialogueChanger(3,1)                                               #go to dialogue 3
+            elif selector[3]==1:
+                self.dialogueChanger(0)                                                 #go to dialogue 0
 
         elif self.countDialogue==1:                                                     #dialogue for changing zone
-            intralaCity(self.parent,self.diaryNotes)  
+            if self.loader:                                 
+                intralaCity(self.parent,self.diaryNotes)                                #create intralaCity object just once
+                self.loader=False
+
             self.nextF=6
-            Zones[0].playButton["command"]=lambda:Zones[0].toggle(Zones[self.nextF])    #if we go to title from next frame, if we touch play button we come back to that frame
-            self.copyingObjects(Zones[self.nextF])
-            self.toggle(Zones[self.nextF])
+            Zones[0].playButton["command"]=lambda:Zones[0].toggle(Zones[self.nextF],True)       #if we go to title from next frame, if we touch play button we come back to that frame
+            self.copyingObjects(Zones[self.nextF])                                              #copy objects to next zone
+            self.dialogueChanger(0,0)                                                           #reset the dialogue of the actual zone
+            self.toggle(Zones[self.nextF])                                                      #change to the next zone
 
-        elif self.countDialogue==2:
-            self.dialogueChanger(0)                                                     #cuando acaba dialogo 2 ir a dialogo 0
+        elif self.countDialogue==2:                                                             #transition dialogue
+            self.dialogueChanger(0)                                                             #cuando acaba dialogo 2 ir a dialogo 0
 
-        elif self.countDialogue==3:
-            selector=self.optionChooser(self.optionChecked[self.countDecisions][0])
-            if selector[1]==1:                                                          #go city dialogue
-                self.dialogueChanger(1)
+        elif self.countDialogue==3:                                                     #second decision dialogue
+            selector=self.optionChooser(self.optionChecked[self.countDecisions])
+            self.labelNPC1.place_forget()                                                        #hide npc
+            if selector[1]==1:                                                                  
+                self.dialogueChanger(1)                                                          #go to city dialogue
             else:
-                self.dialogueChanger(0)
-
+                self.dialogueChanger(0)                                                          #go to dialogue 0
+        
+        
 class intralaCity(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
         super().__init__(parent,"images/intralaCity.jpg",["texts/intralaCity.txt"]
         ,"music/aguas estancadas.mp3",prevDiaryEntry+"""-Esta ciudad esta llena de gente\n""",6,"intrala2")
+
+    
+    def chooseNext(self):
+        Zones[0].playButton["command"]=lambda:Zones[0].toggle(Zones[4],True)        #if we go to title from next frame, if we touch play button we come back to that frame
+        self.dialogueChanger(0,0)                                                   #reset dialogue of actual frame
+        Zones[4].diaryText["text"]=self.diaryNotes                                  #update diary notes
+        self.toggle(Zones[4])                                                       #go to next frame
+        
