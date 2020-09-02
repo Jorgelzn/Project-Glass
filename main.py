@@ -14,16 +14,16 @@ def main():
 
     loadingImage = ImageTk.PhotoImage(Image.open("images/loading.jpg"))     #setting loading image
     loading = Label(image=loadingImage)
-    loading.pack()
+    loading.pack()                          #draw loading image
 
-    root.after(2000,lambda:start())     #we use the loading label to wait while the frames compile
+    root.after(2000,lambda:start())     #we use the loading label to wait while the frames compile, after 2 seconds, start the game
 
     def start():                #defined to use it in after function
-        game=titleFrame(root)
-        loading.pack_forget()
-        game.myFrame.pack()
+        game=titleFrame(root)      #create first scene object
+        loading.pack_forget()   #forget the loading image
+        game.myFrame.pack()     #draw first scene
         
-    root.mainloop()
+    root.mainloop()             #main loop of the game
 
 
 

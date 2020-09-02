@@ -12,9 +12,9 @@ Despues de varios dias de camino, encotre lo que buscaba\n""",1,"portal",
         ["mi familia","mis amigos","no pienso dejar nada atras","mi vida"],
         ["magia elemental","magia druidrica","necromancia y demonologia","magia arcana"],
         ["Intento no meterme en problemas","Los resuelvo por la fuerza","Utilizo mi ingenio","Todo se puede resolver hablando"]]],
-        [[16,17,18,19]])     #nota para despues : implementar que la lista de decision points sea array 2d [[]] para que cada lista este asociada a un dialogo
+        [[16,17,18,19]])
 
-        self.mapButton["command"]=lambda:self.emptyfunc()      #not allowed to use map before going inside the portal
+        self.mapButton["command"]=lambda:self.emptyfunc()      #not allowed to use map before going inside the portal (next frame)
 
     def chooseNext(self):
         selector = self.optionChooser(self.optionChecked[self.countDecisions])
