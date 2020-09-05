@@ -10,9 +10,8 @@ class intralaFrame(mainFrame):
         [[5],[2]])
 
         self.changeObject(InventoryImages[1],ObjectsDesc[1])   #put map
-        self.imgNPC1 = ImageTk.PhotoImage(Image.open("images/test.png").resize((300,230)))                           #set npc image
-        self.labelNPC1 = Label(self.graphicFrame,image=self.imgNPC1,bg="#325062",borderwidth=5,relief="ridge")
-
+        self.imgNPC1=ImageTk.PhotoImage(Image.open("images/intralanpc1.jpg").resize((1000,int(0.7*800)), Image.ANTIALIAS))   #image of the frame
+        self.labelNPC1 = Label(self.graphicFrame,image=self.imgNPC1,bg="#325062",borderwidth=5,relief="ridge") 
     def chooseNext(self):
         if self.countDialogue==0:                                                       #introduction dialogue
             selector=self.optionChooser(self.optionChecked[self.countDecisions])
@@ -22,7 +21,7 @@ class intralaFrame(mainFrame):
             elif selector[1]==1:
                 self.dialogueChanger(1)                                                 #go to dialogue 1
             elif selector[2]==1:
-                self.labelNPC1.place(rely=0.5,relx=0.5,relwidth=0.5,relheight=0.5)      #display npc
+                self.labelNPC1.place(rely=0,relx=0,relwidth=1,relheight=1)              #display npc
                 self.dialogueChanger(3,1)                                               #go to dialogue 3
             elif selector[3]==1:
                 self.dialogueChanger(0)                                                 #go to dialogue 0
