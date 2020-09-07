@@ -4,7 +4,7 @@ class intralaFrame(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
         super().__init__(parent,"images/landscapes/intrala/intrala.jpg",
-        "music/aguas estancadas.mp3",prevDiaryEntry+"""-Esta isla parece totalmente deshabitada a primera vista\n""",4,"intrala1","texts/intrala/intro",True,
+        "music/aguas estancadas.mp3",prevDiaryEntry+"""-Esta isla parece totalmente deshabitada a primera vista\n""",4,"intrala1","texts/intrala/intro",
         [[["inspeccionar la arena","ir a la ciudad","andar por la playa","Observar el mar"]],
         [["solo pasaba por aqui","te estaba buscando (mentir)","he aparecido aqui de repente","estoy buscando un tesoro"]]],
         [[5],[6],[1]],[False,False])
@@ -24,7 +24,7 @@ class intralaFrame(mainFrame):
                 else:
                     self.dialogueChanger(2)                                                 
                     self.events[0]=True                                                     
-                    self.options[0][0][0]="tantear la moneda"                                               #change the option "inspeccionar la arena"
+                    self.options[0][0][0]="tantear el medallon"                                               #change the option "inspeccionar la arena"
             elif selector[1]==1:
                 self.dialogueChanger(1)                                                 
             elif selector[2]==1:
@@ -32,7 +32,7 @@ class intralaFrame(mainFrame):
                     self.dialogueChanger(11)
                 else:
                     self.imageLabel["image"]=self.imgNPC1                                   #display npc
-                    self.dialogueChanger(3,1,True)
+                    self.dialogueChanger(3,1,1)
                     self.events[1]=True                                                     #EVENTO DE NPC REALIZADO                                               
             elif selector[3]==1:
                 self.dialogueChanger(5)                                                 
@@ -42,7 +42,7 @@ class intralaFrame(mainFrame):
                 intralaCity(self.parent,self.diaryNotes)                                #create intralaCity object just once
                 self.loader=False
 
-            self.zoneChanger(6,10,2,True)                                                         #change to the zone pased as parameter                                                            
+            self.zoneChanger(6,10)                                                         #change to the zone pased as parameter                                                            
 
         elif self.countDialogue==3:                                                     #second decision dialogue
             selector=self.optionChooser(self.optionChecked[self.countDecisions])
@@ -57,7 +57,7 @@ class intralaFrame(mainFrame):
                 
         else:
             self.imageLabel["image"]=self.mainImage                                                 #hide npc
-            self.dialogueChanger(10,2,True)
+            self.dialogueChanger(10,0,2)
       
         
 class intralaCity(mainFrame):

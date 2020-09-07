@@ -8,8 +8,8 @@ ObjectsDesc=["""Objecto misterioso
 Todavía no ha sido descubierto""",
 """Mapa de Entoras
 Se pueden apreciar las diferentes regiones de este mundo""",
-"""Moneda Pirata
-Utilizada por la gente de Intrala para el comercio""",
+"""Medallon Dorado
+Contiene simbolos que no reconoces rodeando a una calavera""",
 """Runa de escarcha
 Desprende una leve energía mágica""",
 """Amuleto salvaje
@@ -18,7 +18,7 @@ Un colmillo tallado cuelga de la cuerda""",
 Una gema naranja brilla en el centro del anillo.
 Aparenta haber estado muchos años enterrado"""]
 mixer.init()
-mixer.music.set_volume(0)
+mixer.music.set_volume(1)
 
 class frame():
 

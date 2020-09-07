@@ -1,2 +1,4 @@
-inspeccionas la playa
-encuentras una moneda
+Inspeccionas la playa.
+Notas que en la arena hay algo que emite un leve brillo.
+Encuentras un medallon dorado.
+Lo metes en tu mochila.
