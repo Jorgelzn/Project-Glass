@@ -29,7 +29,7 @@ class frame():
         self.parent=parent
         self.name=name                                                      #name of the frame
         self.myFrame = Frame(self.parent,width=self.w,height=self.h)
-        self.bgImage = ImageTk.PhotoImage(Image.open(self.bg))
+        self.bgImage = ImageTk.PhotoImage(Image.open(self.bg).resize((self.w,self.h), Image.ANTIALIAS))
         self.bgLabel = Label(self.myFrame,image=self.bgImage)
         self.bgLabel.pack()
         self.song=song                                                      #song of the frame

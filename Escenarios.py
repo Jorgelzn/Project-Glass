@@ -6,7 +6,7 @@ from IretZar import iretZarFrame
 class portal(mainFrame):
 
     def __init__(self, parent):
-        super().__init__(parent,"images/portal.jpg",["texts/portal.txt"],"music/test.mp3","""-He decidido adentrarme en el bosque en busca del portal que me llevará a Entoras
+        super().__init__(parent,"images/landscapes/portal.jpg",["texts/portal.txt"],"music/test.mp3","""-He decidido adentrarme en el bosque en busca del portal que me llevará a Entoras
 Despues de varios dias de camino, encotre lo que buscaba\n""",1,"portal",
         [[["conocimiento","experiencias","poder","riquezas"],
         ["mi familia","mis amigos","no pienso dejar nada atras","mi vida"],

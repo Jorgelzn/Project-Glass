@@ -4,22 +4,22 @@ from Escenarios import portal
 class titleFrame(frame):
 
     def __init__(self,parent):
-        super().__init__(parent,"images/title.jpg","music/wind spirit.mp3",0,"title")
+        super().__init__(parent,"images/landscapes/title.jpg","music/wind spirit.mp3",0,"title")
         print("TITLE")
 
         #global InventoryImages
-        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/question.png").resize((70,114)))) 
-        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/map.jpg").resize((150,150))))
-        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/coin.png").resize((150,150))))
-        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/rune.png").resize((250,200))))
-        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/amulet.jpg").resize((150,150))))
-        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/ring.jpg").resize((150,150))))
+        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/objects/question.png").resize((70,114)))) 
+        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/objects/map.jpg").resize((150,150))))
+        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/objects/coin.png").resize((150,150))))
+        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/objects/rune.png").resize((250,200))))
+        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/objects/amulet.jpg").resize((150,150))))
+        InventoryImages.append(ImageTk.PhotoImage(Image.open("images/objects/ring.jpg").resize((150,150))))
         
         portal(self.parent)                             #create portal frame in order to be accessible by the explore and new game buttons in Zone[1]
 
 
         #DISPLAY BUTTONS
-        self.playButton=Button(self.myFrame,text="Explore",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(Zones[1],True))
+        self.playButton=Button(self.myFrame,text="Play",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.toggle(Zones[1],True))
         self.playButton.place(rely=0.7,relx=0.4,relwidth=0.2,relheight=0.1)
 
         self.restartButton=Button(self.myFrame,text="New Adventure",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:[self.newAdventure(),self.toggle(Zones[1],True)])

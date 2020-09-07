@@ -55,10 +55,11 @@ class mainFrame(frame):
 
 
         #IMAGES
-        self.mainImage = ImageTk.PhotoImage(Image.open(self.bg).resize((1000,int(0.7*800)), Image.ANTIALIAS))   #image of the frame
+        self.mainImage = ImageTk.PhotoImage(Image.open(self.bg).resize((self.w,int(0.7*self.h)), Image.ANTIALIAS))   #image of the frame
         self.imageLabel = Label(self.graphicFrame,image=self.mainImage)                                         #label where the image is placed
         self.imageLabel.place(rely=0,relx=0,relwidth=1,relheight=1)                                             #placed ocuppying all the graphicframe space
-        self.menuImage = Image.open(self.bg).filter(ImageFilter.BLUR)                                           #blur image for menu and inventory
+        self.menuImage = Image.open(self.bg).resize((self.w,self.h), Image.ANTIALIAS)
+        self.menuImage=self.menuImage.filter(ImageFilter.BLUR)                                           #blur image for menu and inventory
         self.menuBg=ImageTk.PhotoImage(self.menuImage)                                                          #blur version of main image to use as background in the menu and inventory
         self.bgLabel["image"]=self.menuBg                                                                       #set image
         self.mapImage = ImageTk.PhotoImage(Image.open("images/bigmap.jpg"))                                     #image for the map section
@@ -128,11 +129,11 @@ class mainFrame(frame):
         self.inventoryButton.place(rely=0,relx=0.8,relwidth=0.2,relheight=0.25)     #inventory button to access inventory, placed in the graphic frame
 
         self.continueButton = Button(self.inventoryFrame,text="Continue",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.hideElem(self.inventoryFrame))
-        self.continueButton.place(rely=0.9,relx=0,relwidth=1,relheight=0.1)         #continue button to go back to game (hide inventory), placed at the lower part of inventory frame
+        self.continueButton.place(rely=0.89,relx=0,relwidth=1,relheight=0.11)         #continue button to go back to game (hide inventory), placed at the lower part of inventory frame
 
         self.objects=[]                                                             #array used to store all the buttons for the objects in the inventory
         for i in range(12):                                                         #there will be 12 objects
-            self.objects.append(Button(self.inventoryFrame,bg="#325062",activebackground="#325062",width=169,height=185,image=InventoryImages[0],command=lambda:[self.toggleElem(self.descriptionFrame,0.1,0.15,0.7,0.8),self.inventoryFrame.place_forget(),self.setObjectDesc(self.objects[i]["image"],ObjectsDesc[0])]))
+            self.objects.append(Button(self.inventoryFrame,bg="#325062",activebackground="#325062",width=self.w*0.17,height=self.h*0.23,image=InventoryImages[0],command=lambda:[self.toggleElem(self.descriptionFrame,0.1,0.15,0.7,0.8),self.inventoryFrame.place_forget(),self.setObjectDesc(self.objects[i]["image"],ObjectsDesc[0])]))
             self.objects[i].grid(row=int(i/4),column=int(i%4))                      #grid layout used to palce the objects in the inventory frame (4x3)
 
 

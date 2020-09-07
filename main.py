@@ -12,7 +12,7 @@ def main():
     root.iconbitmap("images/Entoras.ico")                                   #icon of the window
     root.resizable(False,False)                                             #window cannot resize
 
-    loadingImage = ImageTk.PhotoImage(Image.open("images/loading.jpg"))     #setting loading image
+    loadingImage = ImageTk.PhotoImage(Image.open("images/loading.jpg").resize((1000,800), Image.ANTIALIAS))     #setting loading image
     loading = Label(image=loadingImage)
     loading.pack()                                                          #draw loading image
 

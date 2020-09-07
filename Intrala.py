@@ -3,14 +3,14 @@ from MainFrame import *
 class intralaFrame(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
-        super().__init__(parent,"images/intrala.jpg",["texts/intrala.txt","texts/intralatesting1.txt","texts/intralatesting2.txt","texts/intralatesting3.txt"]
+        super().__init__(parent,"images/landscapes/intrala/intrala.jpg",["texts/intrala.txt","texts/intralatesting1.txt","texts/intralatesting2.txt","texts/intralatesting3.txt"]
         ,"music/aguas estancadas.mp3",prevDiaryEntry+"""-Esta isla parece totalmente deshabitada a primera vista\n""",4,"intrala1",
         [[["inspeccionar la arena","ir a la ciudad","quedarse en la playa","Observar el mar"]],
         [["Observar el mar","Ir a la ciudad","mirar el cielo","Andar"]]],
         [[5],[2]])
 
         self.changeObject(InventoryImages[1],ObjectsDesc[1])   #put map
-        self.imgNPC1=ImageTk.PhotoImage(Image.open("images/intralanpc1.jpg").resize((1000,int(0.7*800)), Image.ANTIALIAS))   #image of the frame
+        self.imgNPC1=ImageTk.PhotoImage(Image.open("images/npcStages/intrala/intralanpc1.jpg").resize((1000,int(0.7*800)), Image.ANTIALIAS))   #image of the frame
         self.labelNPC1 = Label(self.graphicFrame,image=self.imgNPC1,bg="#325062",borderwidth=5,relief="ridge") 
     def chooseNext(self):
         if self.countDialogue==0:                                                       #introduction dialogue
@@ -52,7 +52,7 @@ class intralaFrame(mainFrame):
 class intralaCity(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
-        super().__init__(parent,"images/intralaCity.jpg",["texts/intralaCity.txt"]
+        super().__init__(parent,"images/landscapes/intrala/intralaCity.jpg",["texts/intralaCity.txt"]
         ,"music/aguas estancadas.mp3",prevDiaryEntry+"""-Esta ciudad esta llena de gente\n""",6,"intrala2")
 
     
