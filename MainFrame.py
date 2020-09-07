@@ -1,8 +1,8 @@
 from Frame import *
-
+import os
 class mainFrame(frame):
 
-    def __init__(self,parent,bg,dialogue,song,diaryEntry,number,name,options=None,decisions=None):
+    def __init__(self,parent,bg,song,diaryEntry,number,name,directoryName,optdi=False,options=None,decisions=None,events=None):
         super().__init__(parent,bg,song,number,name)
         print("FRAME")  
 
@@ -25,7 +25,8 @@ class mainFrame(frame):
         self.countDecisions=0                               #variable used to know which array of decisions we have to use of the options array
         self.objectsName=[]                                 #variable that is used to store the description of the objects in the frame inventory (to diferenciate between them as copy them to next frame)
         self.loader=True                                    #variable used to create the frame objects just once
-
+        self.optionDialogue=optdi
+        self.events=events
         #SETTING ALL THE FRAMES USED IN THE MAIN FRAME
 
         self.textFrame=Frame(self.myFrame)                                  #frame used for the display of the text and the next button
@@ -46,11 +47,11 @@ class mainFrame(frame):
 
         #opening text files
         self.phrases=[]                                                     #array storing all the dialogues and phrases, it is 2d to store all the dialogues [["dialogue","1"],["dialogue","2"]]
-        for i in dialogue:
-            textFile=open(i,"r")
+        for i in os.listdir(directoryName):
+            textFile=open(directoryName+"/"+i,"r")
             self.phrases.append(textFile.read().splitlines())               #each position of phrases (phrases[i]) stores one dialogue array, ["hola","buenas","tardes"]
 
-        
+
         #SETTING ALL THE ELEMENTES IN THE FRAME
 
 
@@ -180,7 +181,7 @@ class mainFrame(frame):
 
 
     def action(self):                                                                           #function used to determine what to do when the button next is pressed
-        if self.actualPhrase in self.decisionPoints[self.countDecisions]:                       #if we are in a decision point of the dialogue, text is replaced by the options table in order to choose
+        if self.actualPhrase in self.decisionPoints[self.countDecisions] and self.optionDialogue:                       #if we are in a decision point of the dialogue, text is replaced by the options table in order to choose
             self.selector.place(rely=0,relx=0,relwidth=0.8,relheight=1)                         #place the option buttons
             if 1 in self.optionChecked[self.countDecisions][self.actualDecision]:               #if in the actual decision (self.optionChecked[actual]) there is a one (we use next button with an option chosen)
                 if self.actualPhrase==len(self.phrases[self.countDialogue])-1:                   #if we are in the last phrase of the dialogue execute method chooseNext to decide what to do
@@ -240,11 +241,12 @@ class mainFrame(frame):
         return selector
     
 
-    def dialogueChanger(self,number,deci=0):                                        #method to change the dialogue that will be shown in the text box and the decisions that wll be used
+    def dialogueChanger(self,number,deci=0,optdi=False):                                        #method to change the dialogue that will be shown in the text box and the decisions that wll be used
         self.actualPhrase=0                                                         #set actual phrase to 0 to start dialogue at the beginninng
         self.actualDecision=0                                                       #set decision to 0 to start at the first decision of the new dialogue
         self.countDecisions=deci                                                    #set the decisions to the value of the parameter
         self.countDialogue=number                                                   #set the dialogue to the value of the parameter
+        self.optionDialogue=optdi
         self.text["text"]=self.phrases[self.countDialogue][self.actualPhrase]       #change text to first phrase of the new dialogue
         for i in range(len(self.optionChecked[self.countDecisions])):               #for to set the array to optionschecked to 0
             for j in range(len(self.optionChecked[self.countDecisions][i])):
@@ -257,6 +259,15 @@ class mainFrame(frame):
                 elem.changeObject(self.objects[i]["image"],self.objectsName[i])     #if object is in objectsName set the description of that array
             else:
                 elem.changeObject(self.objects[i]["image"],ObjectsDesc[0])          #if object is not in objectsName set description of unknown object
+
+    def zoneChanger(self,zone,dialogue=0,options=0,optdi=False):
+        self.nextF=zone
+        Zones[0].playButton["command"]=lambda:Zones[0].toggle(Zones[self.nextF],True)       #if we go to title from next frame, if we touch play button we come back to that frame
+        if Zones[self.nextF].diaryText["text"] not in self.diaryText["text"]:                       #check para no repetir diary entrys
+            Zones[self.nextF].diaryText["text"]=self.diaryNotes+Zones[self.nextF].diaryNotes                                  #update diary notes
+        self.copyingObjects(Zones[self.nextF])                                              #copy objects to next zone
+        self.dialogueChanger(dialogue,options,optdi)                                              #reset the dialogue of the actual zone
+        self.toggle(Zones[self.nextF])                                                      #change to the next zone
 
 
     def chooseNext(self):                       #method that will be different in each frame, so each frame will have to implement it

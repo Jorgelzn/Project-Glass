@@ -18,7 +18,7 @@ Un colmillo tallado cuelga de la cuerda""",
 Una gema naranja brilla en el centro del anillo.
 Aparenta haber estado muchos años enterrado"""]
 mixer.init()
-mixer.music.set_volume(1)
+mixer.music.set_volume(0)
 
 class frame():
 
