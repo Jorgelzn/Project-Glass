@@ -2,8 +2,8 @@ from Frame import *
 import os
 class mainFrame(frame):
 
-    def __init__(self,parent,bg,song,diaryEntry,number,name,directoryName,options=None,decisions=None,events=None,point=0):
-        super().__init__(parent,bg,song,number,name)
+    def __init__(self,parent,bg,song,diaryEntry,name,directoryName,options=None,decisions=None,events=None,point=0):
+        super().__init__(parent,bg,song,name)
         print("FRAME")  
 
         #VARIABLES 
@@ -19,7 +19,6 @@ class mainFrame(frame):
         self.options=options                                #store text of the different options, 2d to cover multiples dialogues
         self.actualDecision=0                               #store the decision in which we are in the moment to keep track where we are in dialogue to iterate arrays of decions and options
         self.actualPhrase = 0                               #store the phrase in which we are (in the actual dialogue) to navigate in the phrases array
-        self.nextF = 0                                      #variable used to choose which will be the next frame to go
         self.diaryNotes=diaryEntry                          #used to store the text that will be displayed in the diary section
         self.countDialogue=0                                #variable used to know in which dialogue  of the array of dialogues we are
         self.countDecisions=0                               #variable used to know which array of decisions we have to use of the options array
@@ -260,14 +259,17 @@ class mainFrame(frame):
             else:
                 elem.changeObject(self.objects[i]["image"],ObjectsDesc[0])          #if object is not in objectsName set description of unknown object
 
-    def zoneChanger(self,zone,dialogue=0,options=0,point=0):
-        self.nextF=zone
-        Zones[0].playButton["command"]=lambda:Zones[0].toggle(Zones[self.nextF],True)       #if we go to title from next frame, if we touch play button we come back to that frame
-        if Zones[self.nextF].diaryText["text"] not in self.diaryText["text"]:                       #check para no repetir diary entrys
-            Zones[self.nextF].diaryText["text"]=self.diaryNotes+Zones[self.nextF].diaryNotes                                  #update diary notes
-        self.copyingObjects(Zones[self.nextF])                                              #copy objects to next zone
+    def zoneChanger(self,zone,dialogue=0,options=0,point=0,music=False):
+        number=0
+        for i in range(len(Zones)):
+            if Zones[i].name==zone:
+                number=i
+        Zones[0].playButton["command"]=lambda:Zones[0].toggle(Zones[number],True)       #if we go to title from next frame, if we touch play button we come back to that frame
+        if Zones[number].diaryText["text"] not in self.diaryText["text"]:                       #check para no repetir diary entrys
+            Zones[number].diaryText["text"]=self.diaryNotes+Zones[number].diaryNotes                                  #update diary notes
+        self.copyingObjects(Zones[number])                                              #copy objects to next zone
         self.dialogueChanger(dialogue,options,point)                                              #reset the dialogue of the actual zone
-        self.toggle(Zones[self.nextF])                                                      #change to the next zone
+        self.toggle(Zones[number],music)                                                      #change to the next zone
 
 
     def chooseNext(self):                       #method that will be different in each frame, so each frame will have to implement it

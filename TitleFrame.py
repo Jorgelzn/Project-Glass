@@ -1,10 +1,10 @@
 from Frame import *
-from Escenarios import portal
+from Portal import portal
 
 class titleFrame(frame):
 
     def __init__(self,parent):
-        super().__init__(parent,"images/landscapes/title.jpg","music/wind spirit.mp3",0,"title")
+        super().__init__(parent,"images/landscapes/title.jpg","music/title.mp3","title")
         print("TITLE")
 
         #global InventoryImages
@@ -27,6 +27,9 @@ class titleFrame(frame):
 
         self.creditsButton=Button(self.myFrame,text="Credits",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.creditsToggle())
         self.creditsButton.place(rely=0.90,relx=0.05,relwidth=0.1,relheight=0.05)
+
+        self.exitButton=Button(self.myFrame,text="Exit",bg="#325062",fg="#4FC6B2",activebackground="#325062",activeforeground="#4FC6B2",font=("Verdana", 15),command=lambda:self.parent.destroy())
+        self.exitButton.place(rely=0.90,relx=0.85,relwidth=0.1,relheight=0.05)
 
 
         self.creditsText=Label(self.myFrame,text="""Programmer and Designer:

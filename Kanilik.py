@@ -3,7 +3,7 @@ from MainFrame import *
 class kanilikFrame(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
-        super().__init__(parent,"images/landscapes/kanilik/selvaKanilik.jpg","music/elfos nocturnos.mp3",prevDiaryEntry+"""-Nunca antes habia visto una selva como esta\n""",3,"kanilik1","texts/kanilik/intro",
+        super().__init__(parent,"images/landscapes/kanilik/selvaKanilik.jpg","music/forest.mp3",prevDiaryEntry+"""-Nunca antes habia visto una selva como esta\n""","kanilik1","texts/kanilik/intro",
         [[["Si, podrias ayudarme a bajar?","No gracias estoy bien","Que eres?","Porque deberia confiar en ti"]],
         [["Ir por el sendero de la derecha","Ir por el sendero de la izquierda","Observar los dos caminos","Observar la jungla"]]],
         [[13],[15],[12],[7],[3],[4],[1]])
@@ -12,6 +12,12 @@ class kanilikFrame(mainFrame):
         self.imgNPC1=ImageTk.PhotoImage(Image.open("images/npcStages/kanilik/kaniliknpc1.jpg").resize((1000,int(0.7*800)), Image.ANTIALIAS))   #image of the frame
 
     def chooseNext(self):
+
+        if self.loader:                                 
+            iristhat(self.parent,self.diaryNotes)                                #create intralaCity object just once
+            keran(self.parent,self.diaryNotes)
+            self.loader=False
+        
         
         if self.countDialogue==0:
             self.dialogueChanger(1,0,0)
@@ -42,6 +48,30 @@ class kanilikFrame(mainFrame):
                 self.dialogueChanger(10)
         elif self.countDialogue==9 or self.countDialogue==10:
             self.dialogueChanger(11,1,6)
+        elif self.countDialogue==7:
+            self.zoneChanger("iristhat",11,1,6,True)
+        elif self.countDialogue==8:
+            self.zoneChanger("keran",11,1,6,True)
 
 
+class iristhat(mainFrame):
+
+    def __init__(self, parent,prevDiaryEntry):
+        super().__init__(parent,"images/landscapes/kanilik/iristhat.jpg"
+        ,"music/elfos.mp3","""-Hay una abrumadora calma en el ambiente\n""","iristhat","texts/kanilik/iristhat")
+
+    
+    def chooseNext(self):
+        pass #not implemented
+
+
+class keran(mainFrame):
+
+    def __init__(self, parent,prevDiaryEntry):
+        super().__init__(parent,"images/landscapes/kanilik/keran.jpg"
+        ,"music/drums.mp3","""-Este sitio parece peligroso\n""","keran","texts/kanilik/keran")
+
+    
+    def chooseNext(self):
+        pass #not implemented
 

@@ -4,7 +4,7 @@ class intralaFrame(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
         super().__init__(parent,"images/landscapes/intrala/intrala.jpg",
-        "music/aguas estancadas.mp3",prevDiaryEntry+"""-Esta isla parece totalmente deshabitada a primera vista\n""",4,"intrala1","texts/intrala/intro",
+        "music/aguas estancadas.mp3",prevDiaryEntry+"""-Esta isla parece totalmente deshabitada a primera vista\n""","intrala1","texts/intrala/intro",
         [[["inspeccionar la arena","ir a la ciudad","andar por la playa","Observar el mar"]],
         [["solo pasaba por aqui","te estaba buscando (mentir)","he aparecido aqui de repente","estoy buscando un tesoro"]]],
         [[5],[6],[1]],[False,False])
@@ -14,6 +14,10 @@ class intralaFrame(mainFrame):
 
 
     def chooseNext(self):
+
+        if self.loader:                                 
+            intralaCity(self.parent,self.diaryNotes)                                #create intralaCity object just once
+            self.loader=False
 
         if self.countDialogue==0 or self.countDialogue==10:                                                       #introduction dialogue
             selector=self.optionChooser(self.optionChecked[self.countDecisions])
@@ -38,11 +42,7 @@ class intralaFrame(mainFrame):
                 self.dialogueChanger(5)                                                 
 
         elif self.countDialogue==1:                                                     #dialogue for changing zone
-            if self.loader:                                 
-                intralaCity(self.parent,self.diaryNotes)                                #create intralaCity object just once
-                self.loader=False
-
-            self.zoneChanger(6,10)                                                         #change to the zone pased as parameter                                                            
+            self.zoneChanger("intrala2",10)                                                         #change to the zone pased as parameter                                                            
 
         elif self.countDialogue==3:                                                     #second decision dialogue
             selector=self.optionChooser(self.optionChecked[self.countDecisions])
@@ -64,7 +64,7 @@ class intralaCity(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
         super().__init__(parent,"images/landscapes/intrala/intralaCity.jpg"
-        ,"music/aguas estancadas.mp3","""-Esta ciudad esta llena de gente\n""",6,"intrala2","texts/intrala/intralaCity")
+        ,"music/aguas estancadas.mp3","""-Esta ciudad esta llena de gente\n""","intrala2","texts/intrala/intralaCity")
 
     
     def chooseNext(self):
