@@ -13,12 +13,10 @@ Despues de varios dias de camino, encotre lo que buscaba\n""","portal","texts/po
         ["magia elemental","magia druidrica","necromancia y demonologia","magia arcana"],
         ["Intento no meterme en problemas","Los resuelvo por la fuerza","Utilizo mi ingenio","Todo se puede resolver hablando"]]],
         [[16,17,18,19]])
-
         self.mapButton["command"]=lambda:self.emptyfunc()      #not allowed to use map before going inside the portal (next frame)
 
     def chooseNext(self):
         selector = self.optionChooser(self.optionChecked[self.countDecisions])
-        
         if selector.index(max(selector))==0:
             morthenFrame(self.parent,self.diaryNotes)
         elif selector.index(max(selector))==1:

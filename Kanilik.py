@@ -14,7 +14,7 @@ class kanilikFrame(mainFrame):
     def chooseNext(self):
 
         if self.loader:                                 
-            iristhat(self.parent,self.diaryNotes)                                #create intralaCity object just once
+            iristhat(self.parent,self.diaryNotes)                                
             keran(self.parent,self.diaryNotes)
             self.loader=False
         

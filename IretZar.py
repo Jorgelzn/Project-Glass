@@ -13,8 +13,8 @@ class iretZarFrame(mainFrame):
     def chooseNext(self):
 
         if self.loader:                                 
-            merchantCity(self.parent,self.diaryNotes)                                #create intralaCity object just once
-            templeEntrance(self.parent,self.diaryNotes)
+            merchantCity(self.parent,self.diaryNotes)                               
+            desertEvent(self.parent,self.diaryNotes)
             banditCity(self.parent,self.diaryNotes)
             self.loader=False
 
@@ -32,7 +32,7 @@ class iretZarFrame(mainFrame):
         elif self.countDialogue==1:
             self.dialogueChanger(2,0,1)
         elif self.countDialogue==3:
-            self.zoneChanger("templeEntrance",2,0,1,True)
+            self.zoneChanger("desertEvent",2,0,1)
         elif self.countDialogue==4:
             self.zoneChanger("banditCity",0)
         elif self.countDialogue==5:
@@ -71,3 +71,43 @@ class templeEntrance(mainFrame):
         pass #not implemented
 
 
+
+class desertEvent(mainFrame):
+
+    def __init__(self, parent,prevDiaryEntry):
+        super().__init__(parent,"images/landscapes/iret-zar/sandstorm.jpg","music/desert.mp3","","desertEvent","texts/iret-zar/desertEvent",
+        [[["Adentrarse en la tormenta","Volver atras","Observar a lo lejos","Protegerse de la arena"]],
+        [["Ir hacia el norte","Ir hacia el este","Ir hacia el oeste","Ir hacia el sur"]]],
+        [[4],[1],[2,5,7,9]])
+    
+    def chooseNext(self):
+
+        if self.loader:                                 
+            templeEntrance(self.parent,self.diaryNotes)                                
+            self.loader=False
+
+        if self.countDialogue==0 or self.countDialogue==6:
+            selector = self.optionChooser(self.optionChecked[0])
+            if selector[0]==1:
+                self.dialogueChanger(1,1,2)
+            elif selector[1]==1:
+                self.dialogueChanger(2)
+            elif selector[2]==1:
+                self.dialogueChanger(3)
+            elif selector[3]==1:
+                self.dialogueChanger(4)
+
+        elif self.countDialogue==1:
+            selector=self.optionChooser(self.optionChecked[2])
+
+            if selector[0]==1 and selector[2]==1 and selector[3]==2:        #norte sur sur oeste
+                self.dialogueChanger(5)
+            else:
+                self.dialogueChanger(7)
+
+        elif self.countDialogue==2:
+            self.zoneChanger("iretZarDesert",0,0,0)
+        elif self.countDialogue==3 or self.countDialogue==4 or self.countDialogue==7:
+            self.dialogueChanger(6,0,1)
+        elif self.countDialogue==5:
+            self.zoneChanger("templeEntrance",0,0,0,True)
