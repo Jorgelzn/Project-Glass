@@ -265,8 +265,8 @@ class mainFrame(frame):
             if Zones[i].name==zone:
                 number=i
         Zones[0].playButton["command"]=lambda:Zones[0].toggle(Zones[number],True)       #if we go to title from next frame, if we touch play button we come back to that frame
-        if Zones[number].diaryText["text"] not in self.diaryText["text"]:                       #check para no repetir diary entrys
-            Zones[number].diaryText["text"]=self.diaryNotes+Zones[number].diaryNotes                                  #update diary notes
+        Zones[number].diaryText["text"]=self.diaryText["text"]+Zones[number].diaryNotes                                  #update diary notes
+        self.diaryNotes=""
         self.copyingObjects(Zones[number])                                              #copy objects to next zone
         self.dialogueChanger(dialogue,options,point)                                              #reset the dialogue of the actual zone
         self.toggle(Zones[number],music)                                                      #change to the next zone

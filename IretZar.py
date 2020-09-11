@@ -42,7 +42,7 @@ class merchantCity(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
         super().__init__(parent,"images/landscapes/iret-zar/cityEntrance.jpg"
-        ,"music/desert.mp3","""-Hay una abrumadora calma en el ambiente\n""","merchantCity","texts/iret-zar/merchantCity")
+        ,"music/desert.mp3","""-Seguro que en esta ciudad hago buenos contactos\n""","merchantCity","texts/iret-zar/merchantCity")
 
     
     def chooseNext(self):
@@ -75,11 +75,13 @@ class templeEntrance(mainFrame):
 class desertEvent(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
-        super().__init__(parent,"images/landscapes/iret-zar/sandstorm.jpg","music/desert.mp3","","desertEvent","texts/iret-zar/desertEvent",
+        super().__init__(parent,"images/landscapes/iret-zar/sandstorm.jpg","music/desert.mp3","""-Ha aparecido una tormenta de arena de la nada\n""","desertEvent","texts/iret-zar/desertEvent",
         [[["Adentrarse en la tormenta","Volver atras","Observar a lo lejos","Protegerse de la arena"]],
         [["Ir hacia el norte","Ir hacia el este","Ir hacia el oeste","Ir hacia el sur"]]],
-        [[4],[1],[2,5,7,9]])
-    
+        [[4],[2,5,7,9],[1]])     #SI TIENES UN DIALOGO CON VARIAS DECISIONES PONER ESAS [DECISIONES] EN LA MISMA POSICION QUE EN EL ARRAY DE PUNTOS DE DECISION 
+                                #EN ESTE CASO [DECISION A DONDE IR (NORTE....) POSICION 1]-> [CUATRO PUNTOS DE DECISION 2,4,7,9 PARA ESE DIALOGO POSICION 1]
+                                #si no se bugea por la forma en la que structure las variables de mainframe
+
     def chooseNext(self):
 
         if self.loader:                                 
@@ -89,7 +91,7 @@ class desertEvent(mainFrame):
         if self.countDialogue==0 or self.countDialogue==6:
             selector = self.optionChooser(self.optionChecked[0])
             if selector[0]==1:
-                self.dialogueChanger(1,1,2)
+                self.dialogueChanger(1,1,1)
             elif selector[1]==1:
                 self.dialogueChanger(2)
             elif selector[2]==1:
@@ -108,6 +110,6 @@ class desertEvent(mainFrame):
         elif self.countDialogue==2:
             self.zoneChanger("iretZarDesert",0,0,0)
         elif self.countDialogue==3 or self.countDialogue==4 or self.countDialogue==7:
-            self.dialogueChanger(6,0,1)
+            self.dialogueChanger(6,0,2)
         elif self.countDialogue==5:
             self.zoneChanger("templeEntrance",0,0,0,True)
