@@ -190,11 +190,11 @@ class mainFrame(frame):
                     self.text["text"]=self.phrases[self.countDialogue][self.actualPhrase]       #change text to next phrase
                     self.actualDecision+=1                                                      #next decision for next decision point
                 self.selector.place_forget()                                                    #go back to text hiding selector
-            if self.actualDecision in range(len(self.options[self.countDecisions])):        #checking that the actual decision is the range of the options array in the actual dialogue
-                for i in range(len(self.optionButtons)):
+            for i in range(len(self.optionButtons)):
+                if self.actualDecision in range(len(self.options[self.countDecisions])):        #checking that the actual decision is the range of the options array in the actual dialogue
                     self.optionButtons[i]["text"]=self.options[self.countDecisions][self.actualDecision][i]         #change text of decision buttons for next decision
-                    self.optionButtons[i]["bg"]="#325062"                                                           #reset default color for buttons
-                    self.optionButtons[i]["activebackground"]="#325062"
+                self.optionButtons[i]["bg"]="#325062"                                                           #reset default color for buttons
+                self.optionButtons[i]["activebackground"]="#325062"
         else:                                                                           #if we are not in a decision the dialogue proceeds as normal
             if self.actualPhrase==len(self.phrases[self.countDialogue])-1:              #if we are in the last phrase of the dialogue execute method chooseNext to decide what to do
                 self.chooseNext()                                                   #method defined in each individual frame

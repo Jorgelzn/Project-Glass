@@ -80,7 +80,7 @@ class desertEvent(mainFrame):
         [["Ir hacia el norte","Ir hacia el este","Ir hacia el oeste","Ir hacia el sur"]]],
         [[4],[2,5,7,9],[1]])     #SI TIENES UN DIALOGO CON VARIAS DECISIONES PONER ESAS [DECISIONES] EN LA MISMA POSICION QUE EN EL ARRAY DE PUNTOS DE DECISION 
                                 #EN ESTE CASO [DECISION A DONDE IR (NORTE....) POSICION 1]-> [CUATRO PUNTOS DE DECISION 2,4,7,9 PARA ESE DIALOGO POSICION 1]
-                                #si no se bugea por la forma en la que structure las variables de mainframe
+                                #si no se bugea por la forma en la que structuré las variables de mainframe
 
     def chooseNext(self):
 
@@ -89,7 +89,7 @@ class desertEvent(mainFrame):
             self.loader=False
 
         if self.countDialogue==0 or self.countDialogue==6:
-            selector = self.optionChooser(self.optionChecked[0])
+            selector = self.optionChooser(self.optionChecked[self.countDecisions])
             if selector[0]==1:
                 self.dialogueChanger(1,1,1)
             elif selector[1]==1:
@@ -100,8 +100,7 @@ class desertEvent(mainFrame):
                 self.dialogueChanger(4)
 
         elif self.countDialogue==1:
-            selector=self.optionChooser(self.optionChecked[2])
-
+            selector=self.optionChooser(self.optionChecked[self.countDecisions])
             if selector[0]==1 and selector[2]==1 and selector[3]==2:        #norte sur sur oeste
                 self.dialogueChanger(5)
             else:
