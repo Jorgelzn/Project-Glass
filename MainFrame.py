@@ -231,13 +231,21 @@ class mainFrame(frame):
             self.objects[counter]["command"]=lambda:[self.toggleElem(self.descriptionFrame,0.1,0.15,0.7,0.8),self.inventoryFrame.place_forget(),self.setObjectDesc(self.objects[counter]["image"],desc)]    #description of object is changed
 
 
-    def optionChooser(self,optionsToCheck):             #method to sum up the decisions chosen in the option buttons and store them in the selector array
-        selector=[0,0,0,0]                              #each decision sums 1 to its position in the selector decision:[0,1,0,0]->selector:[x,y+1,z,t]                                       #if the options parameter is 2d we use 2 loops to travel in the array
+    def optionChooser(self,optionsToCheck,order=None):             #method to sum up the decisions chosen in the option buttons and store them in the selector array
+        selector=[0,0,0,0]                              #each decision sums 1 to its position in the selector decision:[0,1,0,0]->selector:[x,y+1,z,t], if the options parameter is 2d we use 2 loops to travel in the array
+        count=0                                         #returning value to check if order was followed
         for i in optionsToCheck:        
             for j in range(4):
-                if i[j]==1:                         #if the position is 1 add 1 to the same position in the selector
-                    selector[j]+=1
-        return selector
+                if order!=None:
+                    if i[j]==1 and j==order[count]:
+                        count+=1
+                else:  
+                    if i[j]==1:                         #if the position is 1 add 1 to the same position in the selector
+                        selector[j]+=1
+        if order==None:
+            return selector
+        else:
+            return count
     
 
     def dialogueChanger(self,number,deci=0,point=100):                                        #method to change the dialogue that will be shown in the text box and the decisions that wll be used

@@ -34,15 +34,15 @@ class iretZarFrame(mainFrame):
         elif self.countDialogue==3:
             self.zoneChanger("desertEvent",2,0,1)
         elif self.countDialogue==4:
-            self.zoneChanger("banditCity",0)
+            self.zoneChanger("banditCity",2,0,1,True)
         elif self.countDialogue==5:
-            self.zoneChanger("merchantCity",0)
+            self.zoneChanger("merchantCity",2,0,1,True)
 
 class merchantCity(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
         super().__init__(parent,"images/landscapes/iret-zar/cityEntrance.jpg"
-        ,"music/desert.mp3","""-Seguro que en esta ciudad hago buenos contactos\n""","merchantCity","texts/iret-zar/merchantCity")
+        ,"music/merchants.mp3","""-Seguro que en esta ciudad hago buenos contactos\n""","merchantCity","texts/iret-zar/merchantCity")
 
     
     def chooseNext(self):
@@ -53,7 +53,7 @@ class banditCity(mainFrame):
 
     def __init__(self, parent,prevDiaryEntry):
         super().__init__(parent,"images/landscapes/iret-zar/banditCity.jpg"
-        ,"music/desert.mp3","""-La gente de por aqui es rara\n""","banditCity","texts/iret-zar/banditCity")
+        ,"music/bandits.mp3","""-La gente de por aqui es rara\n""","banditCity","texts/iret-zar/banditCity")
 
     
     def chooseNext(self):
@@ -100,8 +100,8 @@ class desertEvent(mainFrame):
                 self.dialogueChanger(4)
 
         elif self.countDialogue==1:
-            selector=self.optionChooser(self.optionChecked[self.countDecisions])
-            if selector[0]==1 and selector[2]==1 and selector[3]==2:        #norte sur sur oeste
+            selector=self.optionChooser(self.optionChecked[self.countDecisions],[0,3,3,2])   #orden norte sur sur oeste
+            if selector==4:       
                 self.dialogueChanger(5)
             else:
                 self.dialogueChanger(7)
